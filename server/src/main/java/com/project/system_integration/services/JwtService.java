@@ -1,4 +1,4 @@
-package com.project.system_integration.config;
+package com.project.system_integration.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
