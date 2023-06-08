@@ -2,6 +2,7 @@ package com.project.system_integration.services;
 
 
 import com.project.system_integration.entities.User;
+import com.project.system_integration.exceptions.UnauthorizedException;
 import com.project.system_integration.models.UserDto;
 import com.project.system_integration.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -39,13 +40,13 @@ public class AuthService {
         }
     }
     //return role of user
-    public UserDto authenticate(Map<String, String> headers) throws Exception{
+    public UserDto authenticate(Map<String, String> headers) throws Exception, UnauthorizedException {
         String authHeader = null;
         if(headers.containsKey("authorization")) {
             authHeader = headers.get("authorization");
         }
         if(authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new Exception("no token in headers");
+            throw new UnauthorizedException("no token in headers");
         }
         final String jwt = authHeader.substring(7);
         final String login = jwtService.extractLogin(jwt);
@@ -59,12 +60,12 @@ public class AuthService {
         throw new Exception("user with this login doesnt exist");
     }
 
-    public UserDto authenticateAdmin(Map<String, String> headers) throws Exception{
+    public UserDto authenticateAdmin(Map<String, String> headers) throws Exception, UnauthorizedException{
         UserDto user = authenticate(headers);
         if(user.getRole().equals("ADMIN")) {
             return user;
         }
-        throw new Exception("No role required");
+        throw new UnauthorizedException("No role required");
     }
 
 

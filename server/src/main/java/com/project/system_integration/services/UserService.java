@@ -2,6 +2,7 @@ package com.project.system_integration.services;
 
 import com.project.system_integration.entities.Role;
 import com.project.system_integration.entities.User;
+import com.project.system_integration.exceptions.UnauthorizedException;
 import com.project.system_integration.models.UserDto;
 import com.project.system_integration.repositories.UserRepository;
 import jakarta.websocket.RemoteEndpoint;
@@ -46,8 +47,11 @@ public class UserService {
         try {
             UserDto credentials = auth.authenticateAdmin(headers);
             return new ResponseEntity(repository.findAll(), HttpStatus.OK);
-        }catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }catch (UnauthorizedException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.FORBIDDEN);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

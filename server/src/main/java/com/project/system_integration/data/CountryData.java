@@ -14,9 +14,9 @@ public class CountryData implements CommandLineRunner {
     private CountryRepository repository;
 
     @Override
-    public void run(String... args) throws Exception {
-        Country c1 = new Country(1, "Poland", "PL");
-        Country c2 = new Country(2, "Germany", "GM");
+    public void run(String... args){
+        Country c1 = new Country(0, "Poland", "PL");
+        Country c2 = new Country(1, "Germany", "GM");
         repository.saveAll(List.of(c1, c2));
     }
 }

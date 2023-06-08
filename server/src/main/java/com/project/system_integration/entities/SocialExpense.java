@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "inflation")
-public class Inflation {
+@Table(name = "socialExpenses")
+public class SocialExpense {
     @Id
     private Integer id;
     private Integer year;
