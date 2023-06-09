@@ -1,5 +1,6 @@
 import Navbar from 'components/molecules/Navbar/Navbar'
 import DataExchange from 'components/organisms/DataExchange/DataExchange'
+// import InflationChart from 'components/organisms/InflationChart/InflationChart'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -13,7 +14,7 @@ const Dashboard = () => {
     <>
       <Navbar />
       <ChartsWrapper>
-        <span>1</span>
+        {/* <InflationChart /> */}
         <span>2</span>
       </ChartsWrapper>
       <DataExchange />
