@@ -3,16 +3,14 @@ package com.project.system_integration.controllers;
 import com.project.system_integration.services.SocialExpenseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/expense")
 @RequiredArgsConstructor
+@CrossOrigin
 public class ExpensesController {
 
     private final SocialExpenseService service;

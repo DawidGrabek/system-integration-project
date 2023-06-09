@@ -12,6 +12,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/inflation")
 @RequiredArgsConstructor
+@CrossOrigin
 public class InflationController {
 
     private final InflationService service;
