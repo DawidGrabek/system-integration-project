@@ -26,14 +26,13 @@ public class ZInflationData implements CommandLineRunner {
         Country c = new Country(0, "Poland", "PL");
         Unit u = new Unit(0, "Inflation", "Percent");
         List<Inflation> socialExpenses = new ArrayList<>();
-        int i = 0;
+//        int i = 0;
         System.out.println("//////////////////////// inflation data");
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
-                socialExpenses.add(new Inflation(i, Integer.parseInt(values[0]), Double.parseDouble(values[1]),c, u));
-                i++;
+                socialExpenses.add(new Inflation( Integer.parseInt(values[0]), Double.parseDouble(values[1]),c, u));
             }
         }
         repository.saveAll(socialExpenses);

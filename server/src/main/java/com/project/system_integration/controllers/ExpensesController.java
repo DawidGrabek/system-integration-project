@@ -26,4 +26,9 @@ public class ExpensesController {
         return service.getAllExpenditure(headers);
     }
 
+    @GetMapping("/product")
+    public ResponseEntity getAllProduct(@RequestHeader Map<String, String> headers) {
+        return service.getAllProduct(headers);
+    }
+
 }

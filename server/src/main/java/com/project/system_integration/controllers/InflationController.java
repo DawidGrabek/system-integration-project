@@ -21,9 +21,9 @@ public class InflationController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> addInflation() {
+    public ResponseEntity<String> addInflation(@RequestHeader Map<String, String> headers, @RequestBody InflationDto inflationDto) {
         //TODO: finish
-        return new ResponseEntity<>("TODO", HttpStatus.BAD_GATEWAY);
+        return service.addInflation(headers , inflationDto);
     }
 
     @GetMapping("/{year}")

@@ -42,7 +42,7 @@ public class UserService {
 //            throw new RuntimeException(e);
         }
     }
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseEntity getAllUsers(Map<String, String> headers) {
         try {
             UserDto credentials = auth.authenticateAdmin(headers);

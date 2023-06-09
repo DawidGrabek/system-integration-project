@@ -7,6 +7,8 @@ import com.project.system_integration.repositories.InflationRepository;
 import com.project.system_integration.repositories.SocialExpensesRepository;
 import com.project.system_integration.repositories.UnitRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -24,7 +26,7 @@ public class SocialExpenseEndpoint {
     private final UnitRepository repositoryUnit;
     private final CountryRepository repositoryCountry;
 
-
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getExpense")
     @ResponsePayload
     public GetExpenseResponse getExpense(@RequestPayload GetExpense request) {
@@ -46,6 +48,7 @@ public class SocialExpenseEndpoint {
         response.setUnit(mapUnit(expense.getUnit()));
         return response;
     }
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "addExpense")
     @ResponsePayload
     public AddExpenseResponse addExpense(@RequestPayload AddExpense request) {
