@@ -20,7 +20,7 @@ public class InflationController {
         return service.getAllInflations(headers);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<String> addInflation(@RequestHeader Map<String, String> headers, @RequestBody InflationDto inflationDto) {
         //TODO: finish
         return service.addInflation(headers , inflationDto);
