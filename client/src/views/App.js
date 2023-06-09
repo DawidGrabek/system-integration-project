@@ -5,7 +5,7 @@ import { useApi } from 'hooks/useApi'
 function App() {
   const { user } = useApi()
 
-  return true ? <AuthorizedApp /> : <UnauthorizedApp />
+  return user ? <AuthorizedApp /> : <UnauthorizedApp />
 }
 
 export default App
