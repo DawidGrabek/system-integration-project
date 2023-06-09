@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://system_integration.pl/soap_service"
+            targetNamespace="http://system_integration.pl/soap_service">
+
+<!--    get expense by year and title-->
+    <xs:element name="getExpense">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="year" type="xs:integer"/>
+                <xs:element name="unitTitle" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getExpenseResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="year" type="xs:integer"/>
+                <xs:element name="value" type="xs:double"/>
+                <xs:element name="unit" type="tns:unit"/>
+                <xs:element name="country" type="tns:country"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+<!--    add expense-->
+    <xs:element name="addExpense">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="year" type="xs:integer"/>
+                <xs:element name="value" type="xs:double"/>
+                <xs:element name="unit" type="tns:unit"/>
+                <xs:element name="country" type="tns:country"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="addExpenseResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="year" type="xs:integer"/>
+                <xs:element name="value" type="xs:double"/>
+                <xs:element name="unit" type="tns:unit"/>
+                <xs:element name="country" type="tns:country"/>
+                <xs:element name="status" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+<!--    representation of unit-->
+    <xs:complexType name="unit">
+        <xs:sequence>
+            <xs:element name="unit" type="xs:string"/>
+            <xs:element name="title" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="country">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="code" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
