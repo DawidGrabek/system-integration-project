@@ -17,8 +17,8 @@ public class UserData implements CommandLineRunner {
     @Autowired
     RoleRepository roleRepository;
     private void addUsers() {
-        User user = new User( 0, "user", "1234", new Role(1, "USER"));
-        User admin = new User(1, "admin", "1234", new Role(0, "ADMIN"));
+        User user = new User( 0, "user", "1234", new Role(0, "USER"));
+        User admin = new User(1, "admin", "1234", new Role(1, "ADMIN"));
         userRepository.saveAll(List.of(admin, user));
         List<User> users = userRepository.findAll();
         System.out.println("All users: " + users);

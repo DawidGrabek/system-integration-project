@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface SocialExpensesRepository extends JpaRepository<SocialExpense, Integer> {
     Optional<SocialExpense> findByYear(Integer year);
     List<SocialExpense> findAllByUnit(Unit unit);
+    Optional<SocialExpense> findByYearAndUnit(Integer year, Unit unit);
 }

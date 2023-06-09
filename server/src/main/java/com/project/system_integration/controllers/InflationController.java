@@ -26,4 +26,9 @@ public class InflationController {
         return new ResponseEntity<>("TODO", HttpStatus.BAD_GATEWAY);
     }
 
+    @GetMapping("/{year}")
+    public ResponseEntity getInflationByYear(@RequestHeader Map<String, String> headers, @PathVariable Integer year) {
+        return service.getOneByYear(headers, year);
+    }
+
 }

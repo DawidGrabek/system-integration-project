@@ -15,8 +15,8 @@ public class RoleData implements CommandLineRunner {
     private RoleRepository repository;
 
     private void createRoles() {
-        Role admin = new Role(0, "USER");
-        Role user = new Role(1, "ADMIN");
+        Role user = new Role(0, "USER");
+        Role admin = new Role(1, "ADMIN");
         repository.saveAll(List.of(admin, user));
         long count = repository.count();
         System.out.println("Count of roles: " + count);

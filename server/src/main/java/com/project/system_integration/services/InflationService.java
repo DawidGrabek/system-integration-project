@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +35,22 @@ public class InflationService {
             return new ResponseEntity(inflationsDto, HttpStatus.OK);
         } catch (UnauthorizedException e) {
               return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity getOneByYear(@RequestHeader Map<String, String> headers, Integer year) {
+        try{
+            UserDto credentials = auth.authenticate(headers);
+            Optional<Inflation> inflation = repository.findByYear(year);
+            if(inflation.isEmpty()) {
+                return new ResponseEntity("no data with this year", HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity(new InflationDto(inflation.get()), HttpStatus.OK);
+
+        }catch (UnauthorizedException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

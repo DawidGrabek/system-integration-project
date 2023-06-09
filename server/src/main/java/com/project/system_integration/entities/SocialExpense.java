@@ -12,6 +12,14 @@ import lombok.NoArgsConstructor;
 @Table(name = "socialExpenses")
 public class SocialExpense {
     @Id
+    @SequenceGenerator(
+            name="expense_id_sequence",
+            sequenceName = "expense_id_sequence"
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "expense_id_sequence"
+    )
     private Integer id;
     private Integer year;
     private Double value;
@@ -21,4 +29,11 @@ public class SocialExpense {
     @ManyToOne
     @JoinColumn(name = "unit_id")
     private Unit unit;
+
+    public SocialExpense(Integer year, Double value, Country country, Unit unit) {
+        this.year = year;
+        this.value = value;
+        this.country = country;
+        this.unit = unit;
+    }
 }

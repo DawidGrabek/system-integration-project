@@ -62,6 +62,7 @@ public class AuthService {
 
     public UserDto authenticateAdmin(Map<String, String> headers) throws Exception, UnauthorizedException{
         UserDto user = authenticate(headers);
+        System.out.println(user.getRole());
         if(user.getRole().equals("ADMIN")) {
             return user;
         }
