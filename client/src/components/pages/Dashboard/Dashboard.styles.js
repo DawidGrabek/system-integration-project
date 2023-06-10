@@ -6,4 +6,5 @@ export const ChartsWrapper = styled.div`
   justify-content: center;
   align-items: flex-start;
   margin: 30px auto;
+  gap: 20px;
 `

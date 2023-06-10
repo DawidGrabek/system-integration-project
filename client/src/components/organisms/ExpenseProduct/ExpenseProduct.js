@@ -34,8 +34,8 @@ const ExpenseProduct = ({ expenseProduct }) => {
         type="monotone"
         dataKey="Gross_Domestic_Product"
         stroke="#568A67"
-        dot={true}
-        fill="#568A67"
+        // dot={true}
+        // fill="#568A67"
       />
     </LineChart>
   )

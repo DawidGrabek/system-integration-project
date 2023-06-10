@@ -29,10 +29,9 @@ const InflationChart = ({ inflation }) => {
       <XAxis dataKey="year" />
       <YAxis
         tickFormatter={formatYAxis}
-        // domain={yDomain}
-        type="number"
-        domain={['dataMin', 30]}
-        allowDataOverflow={true}
+        domain={yDomain}
+        // type="number"
+        // allowDataOverflow={true}
       />
       <Tooltip />
       <Legend />
@@ -40,8 +39,8 @@ const InflationChart = ({ inflation }) => {
         type="monotone"
         dataKey="Inflation"
         stroke="#FB6F92"
-        dot={true}
-        fill="#FB6F92"
+        // dot={true}
+        // fill="#FB6F92"
       />
     </LineChart>
   )
