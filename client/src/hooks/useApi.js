@@ -81,6 +81,7 @@ export const ApiProvider = ({ children }) => {
         getExpenseProduct,
         expenseExpenditure,
         expenseProduct,
+        setInflation,
       }}
     >
       {children}

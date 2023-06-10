@@ -15,6 +15,7 @@ const Dashboard = () => {
     getExpenseProduct,
     expenseExpenditure,
     expenseProduct,
+    setInflation,
   } = useApi()
 
   useEffect(() => {
@@ -35,6 +36,7 @@ const Dashboard = () => {
         inflation={inflation}
         expenseExpenditure={expenseExpenditure}
         expenseProduct={expenseProduct}
+        setInflation={setInflation}
       />
     </>
   )

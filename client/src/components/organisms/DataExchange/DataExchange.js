@@ -13,8 +13,28 @@ const exportToFileJSON = (data, fileName) => {
   link.click()
 }
 
-const DataExchange = ({ inflation, expenseExpenditure, expenseProduct }) => {
+const readJsonFile = (file) =>
+  new Promise((resolve, reject) => {
+    const fileReader = new FileReader()
+
+    fileReader.onload = (event) => {
+      if (event.target) {
+        resolve(JSON.parse(event.target.result))
+      }
+    }
+
+    fileReader.onerror = (error) => reject(error)
+    fileReader.readAsText(file)
+  })
+
+const DataExchange = ({
+  inflation,
+  expenseExpenditure,
+  expenseProduct,
+  setInflation,
+}) => {
   const [selectedYear, setSelectedYear] = useState('1995')
+  const [JSONFile, setJSONFile] = useState(null)
 
   const handleYearChange = (event) => {
     setSelectedYear(event.target.value)
@@ -34,8 +54,15 @@ const DataExchange = ({ inflation, expenseExpenditure, expenseProduct }) => {
     exportToFileJSON(expenseProduct, 'expenseProduct')
   }
 
-  const handleImportJSON = () => {
+  const handleImportJSON = async (event) => {
     console.log('handleImportJSON')
+    if (event.target.files) {
+      const parsedData = await readJsonFile(event.target.files[0])
+      const mergedData = [...inflation, ...parsedData]
+      // console.log(mergedData)
+      setInflation(mergedData)
+      // console.log('inflation', inflation)
+    }
   }
 
   const handleExportXMLYear = () => {
@@ -58,7 +85,14 @@ const DataExchange = ({ inflation, expenseExpenditure, expenseProduct }) => {
       </DataExchangeItem>
       <DataExchangeItem>
         <span>Import JSON:</span>{' '}
-        <Button onClick={handleImportJSON}>Import</Button>
+        {/* <Button onClick={handleImportJSON}>Import</Button> */}
+        <input
+          type="file"
+          name="ImportJSON"
+          id="ImportJSON"
+          accept=".json"
+          onChange={handleImportJSON}
+        />
       </DataExchangeItem>
 
       <DataExchangeItem>
