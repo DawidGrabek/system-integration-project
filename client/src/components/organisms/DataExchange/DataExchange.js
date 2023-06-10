@@ -1,51 +1,19 @@
 import Button from 'components/atoms/Button/Button'
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import { DataExchangeItem, Wrapper } from './DataExchange.styles'
 
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 30px auto;
-  gap: 10px;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
+const exportToFileJSON = (data, fileName) => {
+  const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+    JSON.stringify(data, fileName)
+  )}`
+  const link = document.createElement('a')
+  link.href = jsonString
+  link.download = `${fileName}.json`
 
-  button {
-    background-color: ${({ theme }) => theme.colors.pink2};
-    max-width: 200px;
-    padding: 10px 30px;
-  }
-`
+  link.click()
+}
 
-export const DataExchangeItem = styled.div`
-  display: flex;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-
-  & > span {
-    min-width: fit-content;
-    margin-right: 20px;
-  }
-
-  select {
-    padding: 8px;
-    font-size: 14px;
-    border-radius: 4px;
-    margin-right: 20px;
-    border: none;
-    background-color: ${({ theme }) => theme.colors.pink5};
-    color: ${({ theme }) => theme.colors.gray4};
-
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.pink2};
-    }
-  }
-`
-
-const DataExchange = () => {
+const DataExchange = ({ inflation, expenseExpenditure, expenseProduct }) => {
   const [selectedYear, setSelectedYear] = useState('1995')
 
   const handleYearChange = (event) => {
@@ -61,7 +29,9 @@ const DataExchange = () => {
   }
 
   const handleExportJSON = () => {
-    console.log('handleExportJSON')
+    exportToFileJSON(inflation, 'inflation')
+    exportToFileJSON(expenseExpenditure, 'expenseExpenditure')
+    exportToFileJSON(expenseProduct, 'expenseProduct')
   }
 
   const handleImportJSON = () => {

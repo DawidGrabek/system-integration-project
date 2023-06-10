@@ -5,7 +5,6 @@ import InflationChart from 'components/organisms/InflationChart/InflationChart'
 import React, { useEffect } from 'react'
 import { ChartsWrapper } from './Dashboard.styles'
 import ExpenseExpenditureChart from 'components/organisms/ExpenseExpenditureChart/ExpenseExpenditureChart'
-import ExpenseChart from 'components/organisms/ExpenseExpenditureChart/ExpenseExpenditureChart'
 import ExpenseProduct from 'components/organisms/ExpenseProduct/ExpenseProduct'
 
 const Dashboard = () => {
@@ -32,7 +31,11 @@ const Dashboard = () => {
         <ExpenseExpenditureChart expenseExpenditure={expenseExpenditure} />
         <ExpenseProduct expenseProduct={expenseProduct} />
       </ChartsWrapper>
-      <DataExchange />
+      <DataExchange
+        inflation={inflation}
+        expenseExpenditure={expenseExpenditure}
+        expenseProduct={expenseProduct}
+      />
     </>
   )
 }

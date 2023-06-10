@@ -14,7 +14,7 @@ const ExpenseChart = ({ expenseExpenditure }) => {
     return { year, Total_General_Government_Expenditure: value }
   })
 
-  const formatYAxis = (x) => `${x}%`
+  const formatYAxis = (x) => `${x.toFixed(2)}%`
 
   const yDomain = ['dataMin', 'dataMax']
 

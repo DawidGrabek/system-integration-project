@@ -14,7 +14,7 @@ const ExpenseProduct = ({ expenseProduct }) => {
     return { year, Gross_Domestic_Product: value }
   })
 
-  const formatYAxis = (x) => `${x}%`
+  const formatYAxis = (x) => `${x.toFixed(2)}%`
 
   const yDomain = ['dataMin', 'dataMax']
 
