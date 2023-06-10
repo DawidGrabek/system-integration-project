@@ -7,6 +7,8 @@ const ApiContext = React.createContext()
 export const ApiProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [inflation, setInflation] = useState([])
+  const [expenseExpenditure, setExpenseExpenditure] = useState([])
+  const [expenseProduct, setExpenseProduct] = useState([])
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -45,9 +47,41 @@ export const ApiProvider = ({ children }) => {
     }
   }
 
+  const getExpenseExpenditure = async () => {
+    try {
+      const response = await AxiosApi.get('/api/v1/expense/expenditure')
+      setExpenseExpenditure(response.data)
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getExpenseProduct = async () => {
+    try {
+      const response = await AxiosApi.get('/api/v1/expense/product')
+      setExpenseProduct(response.data)
+
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <ApiContext.Provider
-      value={{ user, signIn, signOut, error, getInflation, inflation }}
+      value={{
+        user,
+        signIn,
+        signOut,
+        error,
+        getInflation,
+        inflation,
+        getExpenseExpenditure,
+        getExpenseProduct,
+        expenseExpenditure,
+        expenseProduct,
+      }}
     >
       {children}
     </ApiContext.Provider>
