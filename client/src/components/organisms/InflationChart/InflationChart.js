@@ -39,7 +39,7 @@ const InflationChart = ({ inflation }) => {
         type="monotone"
         dataKey="Inflation"
         stroke="#FB6F92"
-        // dot={true}
+        dot={false}
         // fill="#FB6F92"
       />
     </LineChart>

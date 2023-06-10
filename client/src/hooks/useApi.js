@@ -19,7 +19,6 @@ export const ApiProvider = ({ children }) => {
   const signIn = async (formData) => {
     try {
       const response = await AxiosApi.post('/api/v1/users/login', formData)
-      console.log(response)
       setUser(response.data)
       localStorage.setItem('token', response.data)
     } catch (error) {

@@ -34,8 +34,6 @@ const DataExchange = ({
   setInflation,
 }) => {
   const [selectedYear, setSelectedYear] = useState('1995')
-  const [JSONFile, setJSONFile] = useState(null)
-
   const handleYearChange = (event) => {
     setSelectedYear(event.target.value)
   }
@@ -96,7 +94,7 @@ const DataExchange = ({
       </DataExchangeItem>
 
       <DataExchangeItem>
-        <span>Import JSON:</span>
+        <span>Import XML:</span>
         <select
           name="xmlYear"
           id="xmlYear"
