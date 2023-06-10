@@ -11,29 +11,22 @@ export const ApiProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    if (token)
-      (async () => {
-        try {
-          const response = await AxiosApi.get('/api/v1/users/login')
-          setUser(response.data)
-        } catch (e) {
-          console.log(e)
-        }
-      })()
+    if (token) setUser(token)
   }, [])
 
   const signIn = async (formData) => {
     try {
       const response = await AxiosApi.post('/api/v1/users/login', formData)
-      setUser(response.data.user)
-      localStorage.setItem('token', response.data.data)
+      console.log(response)
+      setUser(response.data)
+      localStorage.setItem('token', response.data)
     } catch (error) {
       if (
         error.response &&
         error.response.status >= 400 &&
         error.response.status <= 500
       ) {
-        setError(error.response.data.message)
+        setError('Invalid login or password')
       }
     }
   }
@@ -53,7 +46,9 @@ export const ApiProvider = ({ children }) => {
   }
 
   return (
-    <ApiContext.Provider value={{ user, signIn, signOut, error, getInflation }}>
+    <ApiContext.Provider
+      value={{ user, signIn, signOut, error, getInflation, inflation }}
+    >
       {children}
     </ApiContext.Provider>
   )

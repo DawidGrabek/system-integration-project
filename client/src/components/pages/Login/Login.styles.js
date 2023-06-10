@@ -16,4 +16,10 @@ export const Wrapper = styled.form`
     max-width: 150px;
     padding: 16px 32px;
   }
+
+  & > span {
+    color: ${({ theme }) => theme.colors.negative};
+    margin-top: 5px;
+    font-weight: 700;
+  }
 `

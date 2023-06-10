@@ -15,7 +15,7 @@ const loginSchema = yup.object().shape({
 })
 
 const Login = () => {
-  const { signIn } = useApi()
+  const { signIn, error } = useApi()
   const {
     register,
     handleSubmit,
@@ -24,7 +24,6 @@ const Login = () => {
 
   const onSubmit = (data) => {
     signIn(data)
-    console.log(data, errors)
   }
 
   return (
@@ -48,7 +47,7 @@ const Login = () => {
         error={errors.password?.message}
         required
       />
-      {/* {error && <span>{error}</span>} */}
+      {error && <span>{error}</span>}
       <Button isBig type="submit">
         Submit
       </Button>

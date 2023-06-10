@@ -1,19 +1,22 @@
 import Navbar from 'components/molecules/Navbar/Navbar'
 import DataExchange from 'components/organisms/DataExchange/DataExchange'
-import React from 'react'
-import styled from 'styled-components'
-
-export const ChartsWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-`
+import { useApi } from 'hooks/useApi'
+import InflationChart from 'components/organisms/InflationChart/InflationChart'
+import React, { useEffect } from 'react'
+import { ChartsWrapper } from './Dashboard.styles'
 
 const Dashboard = () => {
+  const { getInflation, inflation } = useApi()
+
+  useEffect(() => {
+    getInflation()
+  }, [])
+
   return (
     <>
       <Navbar />
       <ChartsWrapper>
-        <span>1</span>
+        <InflationChart inflation={inflation} />
         <span>2</span>
       </ChartsWrapper>
       <DataExchange />
