@@ -54,9 +54,21 @@ public class SocialExpenseEndpoint {
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "addExpense")
     @ResponsePayload
     public AddExpenseResponse addExpense(@RequestPayload AddExpense request) {
-        com.project.system_integration.entities.Country c = repositoryCountry.findByName(request.getCountry().getName()).get();
-        Unit u = repositoryUnit.findByTitle(request.getUnit().getTitle()).get();
+        Optional<com.project.system_integration.entities.Country> OptionalC = repositoryCountry.findByName(request.getCountry().getName());
+        AddExpenseResponse response = new AddExpenseResponse();
+        if(OptionalC.isEmpty()) {
+            response.setStatus("nie ma tego typu danych");
+            return response;
+        }
+        com.project.system_integration.entities.Country c = OptionalC.get();
 
+        Optional<Unit> OptionalU = repositoryUnit.findByTitle(request.getUnit().getTitle());
+
+        if(OptionalU.isEmpty()) {
+            response.setStatus("nie ma takiej jednostki");
+            return response;
+        }
+        Unit u = OptionalU.get();
         SocialExpense expense = new SocialExpense();
         expense.setCountry(c);
         expense.setUnit(u);
@@ -64,7 +76,7 @@ public class SocialExpenseEndpoint {
         expense.setValue(request.getValue());
         repository.save(expense);
 
-        AddExpenseResponse response = new AddExpenseResponse();
+
         response.setStatus("Udalo sie");
         return response;
     }
