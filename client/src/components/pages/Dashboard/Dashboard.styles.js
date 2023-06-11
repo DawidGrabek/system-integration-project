@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 
 export const ChartsWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-
-  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 30px auto;
+  gap: 20px;
 `

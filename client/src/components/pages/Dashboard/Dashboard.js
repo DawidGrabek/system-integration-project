@@ -4,12 +4,24 @@ import { useApi } from 'hooks/useApi'
 import InflationChart from 'components/organisms/InflationChart/InflationChart'
 import React, { useEffect } from 'react'
 import { ChartsWrapper } from './Dashboard.styles'
+import ExpenseExpenditureChart from 'components/organisms/ExpenseExpenditureChart/ExpenseExpenditureChart'
+import ExpenseProduct from 'components/organisms/ExpenseProduct/ExpenseProduct'
 
 const Dashboard = () => {
-  const { getInflation, inflation } = useApi()
+  const {
+    getInflation,
+    inflation,
+    getExpenseExpenditure,
+    getExpenseProduct,
+    expenseExpenditure,
+    expenseProduct,
+    setInflation,
+  } = useApi()
 
   useEffect(() => {
     getInflation()
+    getExpenseExpenditure()
+    getExpenseProduct()
   }, [])
 
   return (
@@ -17,9 +29,15 @@ const Dashboard = () => {
       <Navbar />
       <ChartsWrapper>
         <InflationChart inflation={inflation} />
-        <span>2</span>
+        <ExpenseExpenditureChart expenseExpenditure={expenseExpenditure} />
+        <ExpenseProduct expenseProduct={expenseProduct} />
       </ChartsWrapper>
-      <DataExchange />
+      <DataExchange
+        inflation={inflation}
+        expenseExpenditure={expenseExpenditure}
+        expenseProduct={expenseProduct}
+        setInflation={setInflation}
+      />
     </>
   )
 }

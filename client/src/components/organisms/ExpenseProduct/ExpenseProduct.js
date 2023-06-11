@@ -9,14 +9,14 @@ import {
   Legend,
 } from 'recharts'
 
-const InflationChart = ({ inflation }) => {
-  const data = inflation.map(({ year, value }) => {
-    return { year, Inflation: value }
+const ExpenseProduct = ({ expenseProduct }) => {
+  const data = expenseProduct.map(({ year, value }) => {
+    return { year, Gross_Domestic_Product: value }
   })
 
   const formatYAxis = (x) => `${x.toFixed(2)}%`
 
-  const yDomain = [0, 'maxData']
+  const yDomain = ['dataMin', 'dataMax']
 
   return (
     <LineChart
@@ -27,23 +27,18 @@ const InflationChart = ({ inflation }) => {
     >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="year" />
-      <YAxis
-        tickFormatter={formatYAxis}
-        domain={yDomain}
-        // type="number"
-        // allowDataOverflow={true}
-      />
+      <YAxis tickFormatter={formatYAxis} domain={yDomain} />
       <Tooltip />
       <Legend />
       <Line
         type="monotone"
-        dataKey="Inflation"
-        stroke="#FB6F92"
+        dataKey="Gross_Domestic_Product"
+        stroke="#568A67"
         dot={false}
-        // fill="#FB6F92"
+        // fill="#568A67"
       />
     </LineChart>
   )
 }
 
-export default InflationChart
+export default ExpenseProduct
