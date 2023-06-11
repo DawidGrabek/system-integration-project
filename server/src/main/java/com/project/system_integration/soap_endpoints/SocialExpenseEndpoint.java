@@ -9,6 +9,7 @@ import com.project.system_integration.repositories.UnitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -20,6 +21,7 @@ import java.util.Optional;
 
 @Endpoint
 @RequiredArgsConstructor
+@CrossOrigin
 public class SocialExpenseEndpoint {
     private static final String NAMESPACE_URI = "http://system_integration.pl/soap_service";
     private final SocialExpensesRepository repository;
