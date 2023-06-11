@@ -1,7 +1,7 @@
 import Button from 'components/atoms/Button/Button'
 import React, { useState } from 'react'
 import { DataExchangeItem, Wrapper } from './DataExchange.styles'
-
+import AxiosApi from 'axios.config'
 const exportToFileJSON = (data, fileName) => {
   const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
     JSON.stringify(data, fileName)
@@ -38,12 +38,53 @@ const DataExchange = ({
     setSelectedYear(event.target.value)
   }
 
-  const handleExportXML = () => {
-    console.log('handleExportXML')
+  const handleExportXML = async () => {
+    let stringRequest = 
+    `<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://system_integration.pl/soap_service">
+    <soap:Header/>
+    <soap:Body>
+      <tns:getExpense>
+        <year>2005</year>
+        <unitTitle>Total General Government Expenditure</unitTitle>
+      </tns:getExpense>
+    </soap:Body>
+  </soap:Envelope>
+  `;
+    const response = await AxiosApi.post('/api/v1/ws', stringRequest, {
+      headers: {
+        'content-type': 'text/xml'
+      }
+    })
+    console.log(response.data)
   }
 
-  const handleImportXML = () => {
-    console.log('handleImportXML')
+  const handleImportXML = async () => {
+    // zastąpić plikiem
+    let stringRequest = 
+    `<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://system_integration.pl/soap_service">
+    <soap:Header/>
+    <soap:Body>
+      <tns:addExpense>
+        <year>2025</year>
+        <value>85</value>
+        <unit>
+          <unit>Percent</unit>
+          <title>Total General Government Expenditure</title>
+        </unit>
+        <country>
+          <name>Poland</name>
+          <code>PL</code>
+        </country>
+      </tns:addExpense>
+    </soap:Body>
+  </soap:Envelope>
+  `;
+    const response = await AxiosApi.post('/api/v1/ws', stringRequest, {
+      headers: {
+        'content-type': 'text/xml'
+      }
+    })
+    console.log(response.data)
   }
 
   const handleExportJSON = () => {
