@@ -35,6 +35,7 @@ const ExpenseChart = ({ expenseExpenditure }) => {
         dataKey="Total_General_Government_Expenditure"
         stroke="#723d46"
         dot={false}
+        name="Total General Government Expenditure"
         // fill="#723d46"
       />
     </LineChart>

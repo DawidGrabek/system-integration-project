@@ -40,6 +40,7 @@ const InflationChart = ({ inflation }) => {
         dataKey="Inflation"
         stroke="#FB6F92"
         dot={false}
+        name="Inflation"
         // fill="#FB6F92"
       />
     </LineChart>

@@ -35,6 +35,7 @@ const ExpenseProduct = ({ expenseProduct }) => {
         dataKey="Gross_Domestic_Product"
         stroke="#568A67"
         dot={false}
+        name="Gross Domestic Product"
         // fill="#568A67"
       />
     </LineChart>
