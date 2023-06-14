@@ -2,22 +2,6 @@ import styled from 'styled-components'
 
 export const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  margin: 30px auto;
-  gap: 10px;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-
-  button {
-    background-color: ${({ theme }) => theme.colors.pink2};
-    max-width: 200px;
-    padding: 10px 30px;
-  }
-`
-
-export const InputFileWrapper = styled.div`
-  display: flex;
   text-align: center;
   align-items: center;
   justify-content: center;
