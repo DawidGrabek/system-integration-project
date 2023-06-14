@@ -2,6 +2,7 @@ import Button from 'components/atoms/Button/Button'
 import React, { useState } from 'react'
 import { DataExchangeItem, Wrapper } from './DataExchange.styles'
 import AxiosApi from 'axios.config'
+import { FileInput } from 'components/atoms/Input/InputFile.style'
 
 const exportToFileJSON = (data, fileName) => {
   const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
@@ -154,8 +155,7 @@ const DataExchange = ({
       </DataExchangeItem>
       <DataExchangeItem>
         <span>Import JSON:</span>{' '}
-        {/* <Button onClick={handleImportJSON}>Import</Button> */}
-        <input
+        <FileInput
           type="file"
           name="ImportJSON"
           id="ImportJSON"
@@ -165,8 +165,7 @@ const DataExchange = ({
       </DataExchangeItem>
       <DataExchangeItem>
         <span>Import XML:</span>{' '}
-        {/* <Button onClick={handleImportXML}>Import</Button> */}
-        <input
+        <FileInput
           type="file"
           name="ImportXML"
           id="ImportXML"
