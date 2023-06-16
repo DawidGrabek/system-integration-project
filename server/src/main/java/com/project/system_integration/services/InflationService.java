@@ -9,6 +9,7 @@ import com.project.system_integration.models.UserDto;
 import com.project.system_integration.repositories.CountryRepository;
 import com.project.system_integration.repositories.InflationRepository;
 import com.project.system_integration.repositories.UnitRepository;
+import jakarta.xml.bind.JAXB;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -95,5 +97,26 @@ public class InflationService {
         }
 
 
+    }
+
+    public ResponseEntity getOneByYearXml(Map<String, String> headers, Integer year) {
+        try{
+            UserDto credentials = auth.authenticateAdmin(headers);
+            Optional<Inflation> inflation = repository.findByYear(year);
+            if(inflation.isEmpty()) {
+                return new ResponseEntity("no data with this year", HttpStatus.BAD_REQUEST);
+            }
+            InflationDto dto = new InflationDto(inflation.get());
+            StringWriter sw = new StringWriter();
+            JAXB.marshal(dto, sw);
+            String inflationXml = sw.toString();
+            return new ResponseEntity(inflationXml, HttpStatus.OK);
+//            return new ResponseEntity(new InflationDto(inflation.get()), HttpStatus.OK);
+
+        }catch (UnauthorizedException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
