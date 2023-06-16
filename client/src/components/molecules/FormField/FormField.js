@@ -10,18 +10,6 @@ const FormField = React.forwardRef((props, ref) => {
   const { id, labelText, type, placeholder, value, onChange, error, ...rest } =
     props
 
-  // const renderError = () => {
-  //   if (typeof error === 'string') {
-  //     return <span>{error}</span>
-  //   }
-
-  //   if (error && 'message' in error) {
-  //     return <span>{error.message}</span>
-  //   }
-
-  //   return null
-  // }
-
   return (
     <Wrapper>
       <Label htmlFor={id}>{labelText}</Label>

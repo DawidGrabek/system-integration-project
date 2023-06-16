@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ public class SocialExpenseService {
 
     public ResponseEntity getAllExpenses(Map<String, String> headers) {
         try {
-            UserDto user = auth.authenticateAdmin(headers);
+            UserDto user = auth.authenticate(headers);
             List<SocialExpense> expenses = repository.findAll();
             List<SocialExpenseDto> expensesDto = new ArrayList<>();
             for (SocialExpense e :
@@ -37,10 +39,10 @@ public class SocialExpenseService {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseEntity getAllExpenditure(Map<String, String> headers) {
         try {
-            UserDto user = auth.authenticateAdmin(headers);
+            UserDto user = auth.authenticate(headers);
             List<SocialExpenseDto> expensesDto = this.getAllByUnit(TOTAL_GENERAL_GGOVERNMENT_EXPENDITURE);
             return new ResponseEntity(expensesDto, HttpStatus.OK);
         }catch (UnauthorizedException e) {
@@ -49,10 +51,10 @@ public class SocialExpenseService {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public ResponseEntity getAllProduct(Map<String, String> headers) {
         try {
-            UserDto user = auth.authenticateAdmin(headers);
+            UserDto user = auth.authenticate(headers);
             List<SocialExpenseDto> expensesDto = this.getAllByUnit(GROSS_DOMESTIC_PRODUCT);
             return new ResponseEntity(expensesDto, HttpStatus.OK);
         }catch (UnauthorizedException e) {
@@ -61,7 +63,7 @@ public class SocialExpenseService {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     private List<SocialExpenseDto> getAllByUnit(Unit u) {
         List<SocialExpense> expenses = repository.findAllByUnit(u);
         List<SocialExpenseDto> expensesDto = new ArrayList<>();
