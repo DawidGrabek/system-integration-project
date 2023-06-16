@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ public class InflationService {
     private final CountryRepository countryRepository;
     private final UnitRepository unitRepository;
     private final AuthService auth;
-
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseEntity getAllInflations(@RequestHeader Map<String, String> headers) {
         try {
             UserDto credentials = auth.authenticate(headers);
@@ -45,7 +47,7 @@ public class InflationService {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseEntity getOneByYear(@RequestHeader Map<String, String> headers, Integer year) {
         try{
             UserDto credentials = auth.authenticate(headers);
@@ -61,6 +63,7 @@ public class InflationService {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public ResponseEntity addInflation(Map<String, String> headers, InflationDto inflationDto) {
 
         try{

@@ -10,9 +10,26 @@ services:
       - db:/data/postgres
     ports:
       - "5332:5432"
+    expose:
+      - "5332"
     networks:
       - db
     restart: unless-stopped
+  service:
+    container_name: service
+    build:
+      context: out
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    depends_on:
+      - db
+
+    networks:
+      - db
+    expose:
+      - 8080
 
 networks:
   db:

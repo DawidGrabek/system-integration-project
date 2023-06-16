@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,7 @@ public class SocialExpenseService {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseEntity getAllExpenditure(Map<String, String> headers) {
         try {
             UserDto user = auth.authenticate(headers);
@@ -49,7 +51,7 @@ public class SocialExpenseService {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public ResponseEntity getAllProduct(Map<String, String> headers) {
         try {
             UserDto user = auth.authenticate(headers);
@@ -61,7 +63,7 @@ public class SocialExpenseService {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     private List<SocialExpenseDto> getAllByUnit(Unit u) {
         List<SocialExpense> expenses = repository.findAllByUnit(u);
         List<SocialExpenseDto> expensesDto = new ArrayList<>();
