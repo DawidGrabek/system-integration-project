@@ -25,7 +25,7 @@ public class SocialExpenseService {
 
     public ResponseEntity getAllExpenses(Map<String, String> headers) {
         try {
-            UserDto user = auth.authenticateAdmin(headers);
+            UserDto user = auth.authenticate(headers);
             List<SocialExpense> expenses = repository.findAll();
             List<SocialExpenseDto> expensesDto = new ArrayList<>();
             for (SocialExpense e :
@@ -40,7 +40,7 @@ public class SocialExpenseService {
 
     public ResponseEntity getAllExpenditure(Map<String, String> headers) {
         try {
-            UserDto user = auth.authenticateAdmin(headers);
+            UserDto user = auth.authenticate(headers);
             List<SocialExpenseDto> expensesDto = this.getAllByUnit(TOTAL_GENERAL_GGOVERNMENT_EXPENDITURE);
             return new ResponseEntity(expensesDto, HttpStatus.OK);
         }catch (UnauthorizedException e) {
@@ -52,7 +52,7 @@ public class SocialExpenseService {
 
     public ResponseEntity getAllProduct(Map<String, String> headers) {
         try {
-            UserDto user = auth.authenticateAdmin(headers);
+            UserDto user = auth.authenticate(headers);
             List<SocialExpenseDto> expensesDto = this.getAllByUnit(GROSS_DOMESTIC_PRODUCT);
             return new ResponseEntity(expensesDto, HttpStatus.OK);
         }catch (UnauthorizedException e) {

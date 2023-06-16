@@ -30,7 +30,7 @@ public class InflationService {
 
     public ResponseEntity getAllInflations(@RequestHeader Map<String, String> headers) {
         try {
-            UserDto credentials = auth.authenticateAdmin(headers);
+            UserDto credentials = auth.authenticate(headers);
             List<Inflation> inflations = repository.findAll();
             List<InflationDto> inflationsDto = new ArrayList<>();
 
@@ -64,7 +64,7 @@ public class InflationService {
     public ResponseEntity addInflation(Map<String, String> headers, InflationDto inflationDto) {
 
         try{
-            UserDto credentials = auth.authenticate(headers);
+            UserDto credentials = auth.authenticateAdmin(headers);
             Inflation inflation = new Inflation();
             Optional<Country> countryOptional = countryRepository.findByName(inflationDto.getCountry());
             if(countryOptional.isEmpty()) {
