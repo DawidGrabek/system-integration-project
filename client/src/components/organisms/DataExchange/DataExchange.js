@@ -58,7 +58,18 @@ const DataExchange = ({ inflation, expenseExpenditure, setInflation }) => {
       },
     })
 
-    exportToFileXML(response.data, `GrossExpenditure${selectedYear}`)
+    const modifiedXmlData = `<?xml version="1.0" encoding="UTF-8"?>
+    <root>${
+      response.data
+        .replace(/<\/?SOAP-ENV:Envelope[^>]*>/g, '') // Usuwamy znacznik 'SOAP-ENV:Envelope'
+        .replace(/<\/?SOAP-ENV:Header[^>]*>/g, '') // Usuwamy znacznik 'SOAP-ENV:Header'
+        .replace(/<\/?SOAP-ENV:Body[^>]*>/g, '') // Usuwamy znacznik 'SOAP-ENV:Body'
+        .replace(/<\/?ns3:getExpenseResponse[^>]*>/g, '') // Usuwamy znacznik 'ns3:getExpenseResponse'
+    }</root>`.trim().
+
+    // console.log(modifiedXmlData)
+
+    exportToFileXML(modifiedXmlData, `GrossExpenditure${selectedYear}`)
   }
 
   return (
