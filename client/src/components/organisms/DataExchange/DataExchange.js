@@ -9,6 +9,7 @@ import { readJsonFile as readJSONFile, readXMLFile } from 'helpers/readFile'
 const DataExchange = ({ inflation, expenseExpenditure, setInflation }) => {
   const [selectedYear, setSelectedYear] = useState('1995')
   const [selectedYearJSON, setSelectedYearJSON] = useState('1995')
+  const [selectedYearInflation, setSelectedYearInflation] = useState('1995')
 
   // DONE
   const handleImportXML = async (event) => {
@@ -65,27 +66,17 @@ const DataExchange = ({ inflation, expenseExpenditure, setInflation }) => {
         .replace(/<\/?SOAP-ENV:Header[^>]*>/g, '') // Usuwamy znacznik 'SOAP-ENV:Header'
         .replace(/<\/?SOAP-ENV:Body[^>]*>/g, '') // Usuwamy znacznik 'SOAP-ENV:Body'
         .replace(/<\/?ns3:getExpenseResponse[^>]*>/g, '') // Usuwamy znacznik 'ns3:getExpenseResponse'
-    }</root>`.trim().
+    }</root>`
 
-    // console.log(modifiedXmlData)
-
-    exportToFileXML(modifiedXmlData, `GrossExpenditure${selectedYear}`)
+    exportToFileXML(modifiedXmlData.trim(), `GrossExpenditure${selectedYear}`)
   }
 
   const handleExportXMLInflation = async () => {
-  //   const stringRequest = `<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://system_integration.pl/soap_service">
-  //   <soap:Header/>
-  //   <soap:Body>
-  //     <tns:getExpense>
-  //       <year>${selectedYear}</year>
-  //       <unitTitle>Total General Government Expenditure</unitTitle>
-  //     </tns:getExpense>
-  //   </soap:Body>
-  // </soap:Envelope>
-  // `
-  const { data } = await AxiosApi.get(`/api/v1/inflation/xml/${selectedYearJSON}`)
+    const { data } = await AxiosApi.get(
+      `/api/v1/inflation/xml/${selectedYearInflation}`
+    )
 
-    exportToFileXML(data, `GrossExpenditure${selectedYear}`)
+    exportToFileXML(data, `GrossExpenditure${selectedYearInflation}`)
   }
 
   return (
@@ -113,8 +104,8 @@ const DataExchange = ({ inflation, expenseExpenditure, setInflation }) => {
         text2="Export"
         onlyYear
         handleClick={handleExportXMLInflation}
-        selectedYear={selectedYear}
-        setSelectedYear={setSelectedYear}
+        selectedYear={selectedYearInflation}
+        setSelectedYear={setSelectedYearInflation}
         data={expenseExpenditure}
       />
       <InputFileWrapper>
