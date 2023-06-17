@@ -32,4 +32,8 @@ public class InflationController {
         return service.getOneByYear(headers, year);
     }
 
+    @GetMapping("/xml/{year}")
+    public ResponseEntity getInflationByYearXml(@RequestHeader Map<String, String> headers, @PathVariable Integer year) {
+        return service.getOneByYearXml(headers, year);
+    }
 }

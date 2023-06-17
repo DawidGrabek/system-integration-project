@@ -72,6 +72,22 @@ const DataExchange = ({ inflation, expenseExpenditure, setInflation }) => {
     exportToFileXML(modifiedXmlData, `GrossExpenditure${selectedYear}`)
   }
 
+  const handleExportXMLInflation = async () => {
+  //   const stringRequest = `<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://system_integration.pl/soap_service">
+  //   <soap:Header/>
+  //   <soap:Body>
+  //     <tns:getExpense>
+  //       <year>${selectedYear}</year>
+  //       <unitTitle>Total General Government Expenditure</unitTitle>
+  //     </tns:getExpense>
+  //   </soap:Body>
+  // </soap:Envelope>
+  // `
+  const { data } = await AxiosApi.get(`/api/v1/inflation/xml/${selectedYearJSON}`)
+
+    exportToFileXML(data, `GrossExpenditure${selectedYear}`)
+  }
+
   return (
     <Wrapper>
       <DataExchangeItem
@@ -88,6 +104,15 @@ const DataExchange = ({ inflation, expenseExpenditure, setInflation }) => {
         text2="Export"
         onlyYear
         handleClick={handleExportXMLYear}
+        selectedYear={selectedYear}
+        setSelectedYear={setSelectedYear}
+        data={expenseExpenditure}
+      />
+      <DataExchangeItem
+        text1="Export XML inflation expenditure:"
+        text2="Export"
+        onlyYear
+        handleClick={handleExportXMLInflation}
         selectedYear={selectedYear}
         setSelectedYear={setSelectedYear}
         data={expenseExpenditure}

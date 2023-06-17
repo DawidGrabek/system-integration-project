@@ -1,0 +1,64 @@
+services:
+  db:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: johnny
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - db:/data/postgres
+    ports:
+      - "5332:5432"
+    expose:
+      - "5432"
+    networks:
+      - db
+    restart: unless-stopped
+
+
+  # app-server:
+  #   # Configuration for building the docker image for the backend service
+  #   container_name: app-server
+  #   build:
+  #     context: server
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8080:8080"
+  #   restart: always
+  #   # depends_on:
+  #   #   - db
+  #   environment:
+  #     SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/integration
+  #     SPRING_DATASOURCE_USERNAME: johnny
+  #     SPRING_DATASOURCE_PASSWORD: password
+  #     # SPRING_JPA_DATABASE-PLATFORM: org.hibernate.dialect.MySQLDialect
+  #     # SPRING_DATASOURCE_DRIVERCLASSNAME: com.mysql.cj.jdbc.Driver
+  #     SPRING_JPA_HIBERNATE_DDL-AUTO: create-drop
+  #     # SPRING_DATASOURCE_INITIALIZATION-MODE: always
+  #     # SPRING_DATASOURCE_DATA: file:/app/src/main/resources/data.sql
+  #   networks:
+  #     - db
+
+  # service:
+  #   container_name: service
+  #   build:
+  #     context: server
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8080:8080"
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - db
+
+  #   networks:
+  #     - db
+  #   expose:
+  #     - 8080
+
+networks:
+  db:
+    driver: bridge
+
+volumes:
+  db:
