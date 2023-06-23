@@ -17,28 +17,28 @@ services:
     restart: unless-stopped
 
 
-  # app-server:
-  #   # Configuration for building the docker image for the backend service
-  #   container_name: app-server
-  #   build:
-  #     context: server
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "8080:8080"
-  #   restart: always
-  #   # depends_on:
-  #   #   - db
-  #   environment:
-  #     SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/integration
-  #     SPRING_DATASOURCE_USERNAME: johnny
-  #     SPRING_DATASOURCE_PASSWORD: password
-  #     # SPRING_JPA_DATABASE-PLATFORM: org.hibernate.dialect.MySQLDialect
-  #     # SPRING_DATASOURCE_DRIVERCLASSNAME: com.mysql.cj.jdbc.Driver
-  #     SPRING_JPA_HIBERNATE_DDL-AUTO: create-drop
-  #     # SPRING_DATASOURCE_INITIALIZATION-MODE: always
-  #     # SPRING_DATASOURCE_DATA: file:/app/src/main/resources/data.sql
-  #   networks:
-  #     - db
+  app-server:
+    # Configuration for building the docker image for the backend service
+    container_name: app-server
+    build:
+      context: server
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    # depends_on:
+    #   - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/integration
+      SPRING_DATASOURCE_USERNAME: johnny
+      SPRING_DATASOURCE_PASSWORD: password
+      # SPRING_JPA_DATABASE-PLATFORM: org.hibernate.dialect.MySQLDialect
+      # SPRING_DATASOURCE_DRIVERCLASSNAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_HIBERNATE_DDL-AUTO: create-drop
+      # SPRING_DATASOURCE_INITIALIZATION-MODE: always
+      # SPRING_DATASOURCE_DATA: file:/app/src/main/resources/data.sql
+    networks:
+      - db
 
   # service:
   #   container_name: service
