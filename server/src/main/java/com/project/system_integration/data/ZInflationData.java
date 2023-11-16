@@ -27,7 +27,6 @@ public class ZInflationData implements CommandLineRunner {
         Unit u = new Unit(0, "Inflation", "Percent");
         List<Inflation> socialExpenses = new ArrayList<>();
 //        int i = 0;
-        System.out.println("//////////////////////// inflation data");
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {

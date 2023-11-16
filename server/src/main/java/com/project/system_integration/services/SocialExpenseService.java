@@ -35,6 +35,8 @@ public class SocialExpenseService {
                 expensesDto.add(new SocialExpenseDto(e));
             }
             return new ResponseEntity(expensesDto, HttpStatus.OK);
+        }catch (UnauthorizedException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -63,8 +65,7 @@ public class SocialExpenseService {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
-    private List<SocialExpenseDto> getAllByUnit(Unit u) {
+    List<SocialExpenseDto> getAllByUnit(Unit u) {
         List<SocialExpense> expenses = repository.findAllByUnit(u);
         List<SocialExpenseDto> expensesDto = new ArrayList<>();
         for (SocialExpense e :

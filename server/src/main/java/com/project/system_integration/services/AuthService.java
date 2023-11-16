@@ -1,9 +1,12 @@
 package com.project.system_integration.services;
 
 
+import com.project.system_integration.entities.Role;
 import com.project.system_integration.entities.User;
 import com.project.system_integration.exceptions.UnauthorizedException;
+import com.project.system_integration.models.RegisterDto;
 import com.project.system_integration.models.UserDto;
+import com.project.system_integration.repositories.RoleRepository;
 import com.project.system_integration.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,11 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository repository;
+    private final RoleRepository roleRepository;
     private final JwtService jwtService;
 
     public User getUserByLogin(String login) throws Exception {
@@ -26,7 +31,7 @@ public class AuthService {
     public ResponseEntity<String> loginUser(String login, String password) {
         try {
             User user = getUserByLogin(login);
-            System.out.println("user:   " + user);
+            System.out.println("user->  " + user);
 //            if (user == null) {
 //            }
             if (user.getPassword().equals(password)) {
@@ -67,6 +72,21 @@ public class AuthService {
             return user;
         }
         throw new UnauthorizedException("No role required");
+    }
+
+    public ResponseEntity<String> registerUser(RegisterDto body) {
+        try {
+            Role role = roleRepository.findByRoleName(body.getRole()).orElseThrow(() -> new Exception("role doesnt exist"));
+            System.out.println("TEST1@#");
+            if(repository.existsByLogin(body.getLogin())) {
+                return new ResponseEntity<>("user already exist", HttpStatus.CONFLICT);
+            }
+            User newUser = new User(body.getLogin(), body.getPassword(), role);
+            repository.save(newUser);
+        }catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 
 

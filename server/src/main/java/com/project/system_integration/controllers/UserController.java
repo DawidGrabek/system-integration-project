@@ -1,6 +1,7 @@
 package com.project.system_integration.controllers;
 
 import com.project.system_integration.config.LoginForm;
+import com.project.system_integration.models.RegisterDto;
 import com.project.system_integration.services.AuthService;
 import com.project.system_integration.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,16 +26,21 @@ public class UserController {
         return auth.loginUser(body.getLogin(), body.getPassword());
     }
 
-    @GetMapping("/data")
-    public ResponseEntity<String> showData(@RequestHeader Map<String, String> headers) {
-        System.out.println("headers");
-        System.out.println(headers);
-       return service.testAuthentication("param1", "param2", headers);
-    }
+//    @GetMapping("/data")
+//    public ResponseEntity<String> showData(@RequestHeader Map<String, String> headers) {
+//        System.out.println("headers");
+//        System.out.println(headers);
+//       return service.testAuthentication("param1", "param2", headers);
+//    }
 
     @GetMapping("/all")
     public ResponseEntity getAllUsers(@RequestHeader Map<String, String> headers) {
         return service.getAllUsers(headers);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity registerUser(@RequestBody RegisterDto body) {
+        return auth.registerUser(body);
     }
 
 }

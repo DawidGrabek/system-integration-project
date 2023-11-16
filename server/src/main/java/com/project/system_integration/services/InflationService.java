@@ -73,10 +73,10 @@ public class InflationService {
             Inflation inflation = new Inflation();
             Optional<Country> countryOptional = countryRepository.findByName(inflationDto.getCountry());
             if(countryOptional.isEmpty()) {
+                System.out.println("no country");
                 return new ResponseEntity("no country with this name", HttpStatus.BAD_REQUEST);
             }
             Country country = countryOptional.get();
-
             Optional<Unit> unitOptional = unitRepository.findByTitle(inflationDto.getTitle());
             if(unitOptional.isEmpty()) {
                 return new ResponseEntity("no unit with this name", HttpStatus.BAD_REQUEST);
@@ -93,6 +93,7 @@ public class InflationService {
         }catch (UnauthorizedException e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

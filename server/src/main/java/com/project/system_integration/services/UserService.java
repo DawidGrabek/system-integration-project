@@ -23,25 +23,8 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository repository;
-    private final JwtService jwtService;
     private final AuthService auth;
 
-    public ResponseEntity<String> testAuthentication(String param1, String param2, Map<String, String> headers) {
-        try {
-            //get role from user
-            UserDto credentials = auth.authenticate(headers);
-            String login = credentials.getLogin();
-            String role = credentials.getRole();
-            User u = new User(3, "test123", "dupa", new Role(1, "User"));
-            repository.save(u);
-            return new ResponseEntity<String>("udało się zautoryzować użytkownika; login = " + login + " role = " + role, HttpStatus.OK);
-        } catch (Exception e) {
-            //jezeli sie nie udalo to return rensponse forbidden
-            System.out.println(e);
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
-//            throw new RuntimeException(e);
-        }
-    }
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseEntity getAllUsers(Map<String, String> headers) {
         try {
