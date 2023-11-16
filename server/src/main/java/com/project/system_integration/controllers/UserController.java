@@ -18,29 +18,12 @@ import java.util.Map;
 public class UserController {
 
     private final UserService service;
-    private final AuthService auth;
-
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginForm body) {
-        System.out.println(body.getLogin() + "   test   " + body.getPassword());
-        return auth.loginUser(body.getLogin(), body.getPassword());
-    }
-
-//    @GetMapping("/data")
-//    public ResponseEntity<String> showData(@RequestHeader Map<String, String> headers) {
-//        System.out.println("headers");
-//        System.out.println(headers);
-//       return service.testAuthentication("param1", "param2", headers);
-//    }
 
     @GetMapping("/all")
     public ResponseEntity getAllUsers(@RequestHeader Map<String, String> headers) {
         return service.getAllUsers(headers);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity registerUser(@RequestBody RegisterDto body) {
-        return auth.registerUser(body);
-    }
+
 
 }
