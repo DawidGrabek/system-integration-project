@@ -21,9 +21,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SocialExpenseService {
     private final SocialExpensesRepository repository;
-    private final AuthService auth;
     private final Unit TOTAL_GENERAL_GGOVERNMENT_EXPENDITURE = new Unit(1, "Total General Government Expenditure", "Percent");
-    private final Unit GROSS_DOMESTIC_PRODUCT = new Unit(2, "Gross Domestic Producr", "Percent");
+    private final Unit GROSS_DOMESTIC_PRODUCT = new Unit(2, "Gross Domestic Product", "Percent");
 
     public List<SocialExpenseDto> getAllExpenses() {
 
