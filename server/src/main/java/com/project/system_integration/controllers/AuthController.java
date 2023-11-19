@@ -5,6 +5,7 @@ import com.project.system_integration.models.RegisterDto;
 import com.project.system_integration.services.AuthService;
 import com.project.system_integration.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +27,15 @@ public class AuthController {
     private final AuthService auth;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginForm body) {
-        System.out.println(body.getLogin() + "   test   " + body.getPassword());
-        return auth.loginUser(body.getLogin(), body.getPassword());
+    public ResponseEntity<String> login(@RequestBody LoginForm body) throws Exception {
+        String token = auth.loginUser(body.getLogin(), body.getPassword());
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
     @PostMapping("/register")
-    public ResponseEntity registerUser(@RequestBody RegisterDto body) {
-        return auth.registerUser(body);
+    public ResponseEntity<String> registerUser(@RequestBody RegisterDto body) throws Exception {
+//        return auth.registerUser(body);
+        auth.registerUser(body);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -3,6 +3,7 @@ package com.project.system_integration.services;
 import com.project.system_integration.entities.Country;
 import com.project.system_integration.entities.Inflation;
 import com.project.system_integration.entities.Unit;
+import com.project.system_integration.exceptions.BadRequestException;
 import com.project.system_integration.exceptions.UnauthorizedException;
 import com.project.system_integration.models.InflationDto;
 import com.project.system_integration.models.UserDto;
@@ -32,80 +33,59 @@ public class InflationService {
     private final UnitRepository unitRepository;
     private final AuthService auth;
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public ResponseEntity getAllInflations() {
-        try {
-            List<Inflation> inflations = repository.findAll();
-            List<InflationDto> inflationsDto = new ArrayList<>();
+    public List<InflationDto> getAllInflations() {
 
-            for (Inflation i : inflations) {
-                inflationsDto.add(new InflationDto(i));
-            }
+        List<Inflation> inflations = repository.findAll();
+        List<InflationDto> inflationsDto = new ArrayList<>();
 
-            return new ResponseEntity(inflationsDto, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        for (Inflation i : inflations) {
+            inflationsDto.add(new InflationDto(i));
         }
+
+        return inflationsDto;
     }
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public ResponseEntity getOneByYear(Integer year) {
-        try{
-            Optional<Inflation> inflation = repository.findByYear(year);
-            if(inflation.isEmpty()) {
-                return new ResponseEntity("no data with this year", HttpStatus.BAD_REQUEST);
-            }
-            return new ResponseEntity(new InflationDto(inflation.get()), HttpStatus.OK);
-
-        } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    public InflationDto getOneByYear(Integer year) throws BadRequestException {
+        Optional<Inflation> inflation = repository.findByYear(year);
+        if(inflation.isEmpty()) {
+            throw new BadRequestException("no data with this year");
         }
+        return new InflationDto(inflation.get());
     }
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public ResponseEntity addInflation(InflationDto inflationDto) {
-
-        try{
-            Inflation inflation = new Inflation();
-            Optional<Country> countryOptional = countryRepository.findByName(inflationDto.getCountry());
-            if(countryOptional.isEmpty()) {
-                System.out.println("no country");
-                return new ResponseEntity("no country with this name", HttpStatus.BAD_REQUEST);
-            }
-            Country country = countryOptional.get();
-            Optional<Unit> unitOptional = unitRepository.findByTitle(inflationDto.getTitle());
-            if(unitOptional.isEmpty()) {
-                return new ResponseEntity("no unit with this name", HttpStatus.BAD_REQUEST);
-            }
-            Unit unit = unitOptional.get();
-
-            inflation.setYear(inflationDto.getYear());
-            inflation.setValue(inflationDto.getValue());
-            inflation.setCountry(country);
-            inflation.setUnit(unit);
-            repository.save(inflation);
-            return new ResponseEntity("saved corectly", HttpStatus.OK);
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    public boolean addInflation(InflationDto inflationDto) throws BadRequestException {
+        Inflation inflation = new Inflation();
+        Optional<Country> countryOptional = countryRepository.findByName(inflationDto.getCountry());
+        if(countryOptional.isEmpty()) {
+            System.out.println("no country");
+            throw new BadRequestException("no country with this name");
         }
+        Country country = countryOptional.get();
+        Optional<Unit> unitOptional = unitRepository.findByTitle(inflationDto.getTitle());
+        if(unitOptional.isEmpty()) {
+            throw new BadRequestException("no unit with this name");
+        }
+        Unit unit = unitOptional.get();
 
+        inflation.setYear(inflationDto.getYear());
+        inflation.setValue(inflationDto.getValue());
+        inflation.setCountry(country);
+        inflation.setUnit(unit);
+        repository.save(inflation);
+        return true;
 
     }
 
-    public ResponseEntity getOneByYearXml(Integer year) {
-        try{
-            Optional<Inflation> inflation = repository.findByYear(year);
-            if(inflation.isEmpty()) {
-                return new ResponseEntity("no data with this year", HttpStatus.BAD_REQUEST);
-            }
-            InflationDto dto = new InflationDto(inflation.get());
-            StringWriter sw = new StringWriter();
-            JAXB.marshal(dto, sw);
-            String inflationXml = sw.toString();
-            return new ResponseEntity(inflationXml, HttpStatus.OK);
-//            return new ResponseEntity(new InflationDto(inflation.get()), HttpStatus.OK);
-
-        } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    public String getOneByYearXml(Integer year) throws BadRequestException {
+        Optional<Inflation> inflation = repository.findByYear(year);
+        if(inflation.isEmpty()) {
+            throw new BadRequestException("no data with this year");
+//                return new ResponseEntity("no data with this year", HttpStatus.BAD_REQUEST);
         }
+        InflationDto dto = new InflationDto(inflation.get());
+        StringWriter sw = new StringWriter();
+        JAXB.marshal(dto, sw);
+        String inflationXml = sw.toString();
+        return inflationXml;
     }
 }

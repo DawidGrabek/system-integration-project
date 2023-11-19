@@ -31,35 +31,27 @@ public class AuthService {
     }
 
     //return token
-    public ResponseEntity<String> loginUser(String login, String password) {
+    public String loginUser(String login, String password) throws Exception {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         login, password
                 )
         );
-        try {
-            User user = getUserByLogin(login);
-            System.out.println("user->  " + user);
-            return new ResponseEntity<>(jwtService.generateToken(authentication), HttpStatus.OK);
 
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
-        }
+        User user = getUserByLogin(login);
+        System.out.println("user->  " + user);
+        return jwtService.generateToken(authentication);
     }
 
-    public ResponseEntity<String> registerUser(RegisterDto body) {
-        try {
+    public boolean registerUser(RegisterDto body) throws Exception {
             Role role = roleRepository.findByRoleName(body.getRole()).orElseThrow(() -> new Exception("role doesnt exist"));
             System.out.println("TEST1@#");
             if(repository.existsByLogin(body.getLogin())) {
-                return new ResponseEntity<>("user already exist", HttpStatus.CONFLICT);
+                throw new Exception("user already exists");
             }
             User newUser = new User(body.getLogin(), body.getPassword(), role);
             repository.save(newUser);
-        }catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>("ok", HttpStatus.OK);
+        return true;
     }
 
 
