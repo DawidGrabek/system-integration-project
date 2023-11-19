@@ -19,16 +19,17 @@ public class InflationController {
     private final InflationService service;
     @GetMapping("")
     public ResponseEntity<InflationDto> getInflation(Authentication authentication) {
-        return new ResponseEntity(authentication.isAuthenticated(), HttpStatus.OK);
-//        return service.getAllInflations();
+        return service.getAllInflations();
     }
 
     @PostMapping("")
     public ResponseEntity<String> addInflation(Authentication authentication, @RequestBody InflationDto inflationDto) {
-        if(authentication.getAuthorities().iterator().next().getAuthority().equals("ADMIN")) {
+
+        if(authentication.getAuthorities().iterator().next().getAuthority().equals("SCOPE_ADMIN")) {
 
             return service.addInflation(inflationDto);
         }
+
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 

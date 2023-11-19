@@ -109,42 +109,6 @@
 //        Assertions.assertThat(response.getBody()).isEqualTo("no user found");
 //    }
 //
-//    @Test
-//    void authenticate_Success() throws Exception {
-//        // Mock the JWT extraction and validation
-//        when(jwtService.extractLogin("mockedJwtToken")).thenReturn("TestUser");
-//        when(jwtService.extractRole("mockedJwtToken")).thenReturn("USER");
-//        when(jwtService.isTokenValid("mockedJwtToken", "TestUser")).thenReturn(true);
-////        when(authService.getUserByLogin("TestUser")).thenReturn(user);
-//        when(userRepository.findByLogin("TestUser")).thenReturn(Optional.of(user));
-//        // Call the method under test
-//        UserDto userDto = authService.authenticate(Map.of("authorization", "Bearer mockedJwtToken"));
-//
-//        // Assertions
-//        Assertions.assertThat(userDto).isNotNull();
-//        Assertions.assertThat(userDto.getLogin()).isEqualTo("TestUser");
-//        Assertions.assertThat(userDto.getRole()).isEqualTo("USER");
-//    }
-//
-//    @Test
-//    void authenticate_NoTokenInHeaders() {
-//        // Call the method under test without the "authorization" header
-//        Assertions.assertThatExceptionOfType(UnauthorizedException.class)
-//                .isThrownBy(() -> authService.authenticate(Map.of()))
-//                .withMessage("no token in headers");
-//    }
-//
-//    @Test
-//    void authenticate_InvalidToken() {
-//        // Mock the JWT extraction and validation to return false
-//        when(jwtService.extractLogin("mockedJwtToken")).thenReturn("TestUser");
-//        when(jwtService.extractRole("mockedJwtToken")).thenReturn("USER");
-//
-//        // Call the method under test and expect an exception
-//        Assertions.assertThatExceptionOfType(Exception.class)
-//                .isThrownBy(() -> authService.authenticate(Map.of("authorization", "Bearer mockedJwtToken")))
-//                .withMessage("no user found");
-//    }
 //
 //    @Test
 //    void authenticate_UserNotFound() {
