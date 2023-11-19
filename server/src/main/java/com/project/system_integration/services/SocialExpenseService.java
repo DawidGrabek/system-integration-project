@@ -25,9 +25,8 @@ public class SocialExpenseService {
     private final Unit TOTAL_GENERAL_GGOVERNMENT_EXPENDITURE = new Unit(1, "Total General Government Expenditure", "Percent");
     private final Unit GROSS_DOMESTIC_PRODUCT = new Unit(2, "Gross Domestic Producr", "Percent");
 
-    public ResponseEntity getAllExpenses(Map<String, String> headers) {
+    public ResponseEntity getAllExpenses() {
         try {
-            UserDto user = auth.authenticate(headers);
             List<SocialExpense> expenses = repository.findAll();
             List<SocialExpenseDto> expensesDto = new ArrayList<>();
             for (SocialExpense e :
@@ -35,33 +34,25 @@ public class SocialExpenseService {
                 expensesDto.add(new SocialExpenseDto(e));
             }
             return new ResponseEntity(expensesDto, HttpStatus.OK);
-        }catch (UnauthorizedException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public ResponseEntity getAllExpenditure(Map<String, String> headers) {
+    public ResponseEntity getAllExpenditure() {
         try {
-            UserDto user = auth.authenticate(headers);
             List<SocialExpenseDto> expensesDto = this.getAllByUnit(TOTAL_GENERAL_GGOVERNMENT_EXPENDITURE);
             return new ResponseEntity(expensesDto, HttpStatus.OK);
-        }catch (UnauthorizedException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public ResponseEntity getAllProduct(Map<String, String> headers) {
+    public ResponseEntity getAllProduct() {
         try {
-            UserDto user = auth.authenticate(headers);
             List<SocialExpenseDto> expensesDto = this.getAllByUnit(GROSS_DOMESTIC_PRODUCT);
             return new ResponseEntity(expensesDto, HttpStatus.OK);
-        }catch (UnauthorizedException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

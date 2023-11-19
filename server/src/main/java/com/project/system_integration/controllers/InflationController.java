@@ -5,6 +5,7 @@ import com.project.system_integration.services.InflationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -17,23 +18,27 @@ public class InflationController {
 
     private final InflationService service;
     @GetMapping("")
-    public ResponseEntity<InflationDto> getInflation(@RequestHeader Map<String, String> headers) {
-        return service.getAllInflations(headers);
+    public ResponseEntity<InflationDto> getInflation(Authentication authentication) {
+        return new ResponseEntity(authentication.isAuthenticated(), HttpStatus.OK);
+//        return service.getAllInflations();
     }
 
     @PostMapping("")
-    public ResponseEntity<String> addInflation(@RequestHeader Map<String, String> headers, @RequestBody InflationDto inflationDto) {
-        //TODO: finish
-        return service.addInflation(headers , inflationDto);
+    public ResponseEntity<String> addInflation(Authentication authentication, @RequestBody InflationDto inflationDto) {
+        if(authentication.getAuthorities().iterator().next().getAuthority().equals("ADMIN")) {
+
+            return service.addInflation(inflationDto);
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     @GetMapping("/{year}")
-    public ResponseEntity getInflationByYear(@RequestHeader Map<String, String> headers, @PathVariable Integer year) {
-        return service.getOneByYear(headers, year);
+    public ResponseEntity getInflationByYear( @PathVariable Integer year) {
+        return service.getOneByYear(year);
     }
 
     @GetMapping("/xml/{year}")
-    public ResponseEntity getInflationByYearXml(@RequestHeader Map<String, String> headers, @PathVariable Integer year) {
-        return service.getOneByYearXml(headers, year);
+    public ResponseEntity getInflationByYearXml( @PathVariable Integer year) {
+        return service.getOneByYearXml(year);
     }
 }

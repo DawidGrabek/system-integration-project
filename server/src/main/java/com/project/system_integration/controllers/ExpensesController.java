@@ -2,7 +2,9 @@ package com.project.system_integration.controllers;
 
 import com.project.system_integration.services.SocialExpenseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -15,18 +17,18 @@ public class ExpensesController {
 
     private final SocialExpenseService service;
     @GetMapping("")
-    public ResponseEntity getAllExpenses(@RequestHeader Map<String, String> headers) {
-        return service.getAllExpenses(headers);
+    public ResponseEntity getAllExpenses() {
+        return service.getAllExpenses();
     }
 
     @GetMapping("/expenditure")
-    public ResponseEntity getAllExpenditure(@RequestHeader Map<String, String> headers) {
-        return service.getAllExpenditure(headers);
+    public ResponseEntity getAllExpenditure() {
+        return service.getAllExpenditure();
     }
 
     @GetMapping("/product")
-    public ResponseEntity getAllProduct(@RequestHeader Map<String, String> headers) {
-        return service.getAllProduct(headers);
+    public ResponseEntity getAllProduct() {
+        return service.getAllProduct();
     }
 
 }

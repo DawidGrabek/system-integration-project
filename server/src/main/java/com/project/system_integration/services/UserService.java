@@ -28,10 +28,8 @@ public class UserService {
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public ResponseEntity getAllUsers(Map<String, String> headers) {
         try {
-            UserDto credentials = auth.authenticateAdmin(headers);
+//            UserDto credentials = auth.authenticateAdmin(headers);
             return new ResponseEntity(repository.findAll(), HttpStatus.OK);
-        }catch (UnauthorizedException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.FORBIDDEN);
         }
         catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

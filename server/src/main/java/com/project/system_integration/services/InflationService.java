@@ -32,9 +32,8 @@ public class InflationService {
     private final UnitRepository unitRepository;
     private final AuthService auth;
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public ResponseEntity getAllInflations(@RequestHeader Map<String, String> headers) {
+    public ResponseEntity getAllInflations() {
         try {
-            UserDto credentials = auth.authenticate(headers);
             List<Inflation> inflations = repository.findAll();
             List<InflationDto> inflationsDto = new ArrayList<>();
 
@@ -43,33 +42,27 @@ public class InflationService {
             }
 
             return new ResponseEntity(inflationsDto, HttpStatus.OK);
-        } catch (UnauthorizedException e) {
-              return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public ResponseEntity getOneByYear(@RequestHeader Map<String, String> headers, Integer year) {
+    public ResponseEntity getOneByYear(Integer year) {
         try{
-            UserDto credentials = auth.authenticate(headers);
             Optional<Inflation> inflation = repository.findByYear(year);
             if(inflation.isEmpty()) {
                 return new ResponseEntity("no data with this year", HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity(new InflationDto(inflation.get()), HttpStatus.OK);
 
-        }catch (UnauthorizedException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public ResponseEntity addInflation(Map<String, String> headers, InflationDto inflationDto) {
+    public ResponseEntity addInflation(InflationDto inflationDto) {
 
         try{
-            UserDto credentials = auth.authenticateAdmin(headers);
             Inflation inflation = new Inflation();
             Optional<Country> countryOptional = countryRepository.findByName(inflationDto.getCountry());
             if(countryOptional.isEmpty()) {
@@ -90,8 +83,6 @@ public class InflationService {
             repository.save(inflation);
             return new ResponseEntity("saved corectly", HttpStatus.OK);
 
-        }catch (UnauthorizedException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -100,9 +91,8 @@ public class InflationService {
 
     }
 
-    public ResponseEntity getOneByYearXml(Map<String, String> headers, Integer year) {
+    public ResponseEntity getOneByYearXml(Integer year) {
         try{
-            UserDto credentials = auth.authenticateAdmin(headers);
             Optional<Inflation> inflation = repository.findByYear(year);
             if(inflation.isEmpty()) {
                 return new ResponseEntity("no data with this year", HttpStatus.BAD_REQUEST);
@@ -114,8 +104,6 @@ public class InflationService {
             return new ResponseEntity(inflationXml, HttpStatus.OK);
 //            return new ResponseEntity(new InflationDto(inflation.get()), HttpStatus.OK);
 
-        }catch (UnauthorizedException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
