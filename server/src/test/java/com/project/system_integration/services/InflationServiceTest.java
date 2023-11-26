@@ -124,5 +124,30 @@ class InflationServiceTest {
         assertThrows(BadRequestException.class, () -> inflationService.addInflation(inflationDto));
     }
 
-    // Additional tests can be written similarly for other methods and scenarios.
+    @Test
+    void getOneByYearXml_Success() throws BadRequestException {
+        int year = 2021;
+        Inflation inflation = new Inflation();
+        inflation.setYear(year);
+        inflation.setValue(1.5);
+        Unit unit = new Unit(1, "Unit", "unit");
+        Country country = new Country(1, "Country", "CountryCode");
+        inflation.setCountry(country);
+        inflation.setUnit(unit);
+
+        when(inflationRepository.findByYear(year)).thenReturn(Optional.of(inflation));
+
+        String result = inflationService.getOneByYearXml(year);
+
+        assertNotNull(result);
+        assertTrue(result.contains("<year>2021</year>"));
+    }
+
+    @Test
+    void getOneByYearXml_NotFound() {
+        int year = 2021;
+        when(inflationRepository.findByYear(year)).thenReturn(Optional.empty());
+
+        assertThrows(BadRequestException.class, () -> inflationService.getOneByYearXml(year));
+    }
 }
