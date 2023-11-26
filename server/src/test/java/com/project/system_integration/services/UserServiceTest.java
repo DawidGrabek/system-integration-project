@@ -48,5 +48,4 @@ class UserServiceTest {
         verify(userRepository).findAll();
     }
 
-    // Additional tests can be written to cover more scenarios
 }

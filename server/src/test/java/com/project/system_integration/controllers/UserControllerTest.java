@@ -110,3 +110,74 @@
 //    }
 //
 //}
+
+
+
+
+//package com.project.system_integration.controllers;
+//
+//import com.project.system_integration.controllers.UserController;
+//import com.project.system_integration.entities.User;
+//import com.project.system_integration.services.UserService;
+//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.extension.ExtendWith;
+//import org.mockito.InjectMocks;
+//import org.mockito.Mock;
+//import org.mockito.Mockito;
+//import org.mockito.junit.jupiter.MockitoExtension;
+//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+//import org.springframework.http.MediaType;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.test.web.servlet.MockMvc;
+//import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+//import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+//import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+//
+//import java.util.Collections;
+//
+//import static org.mockito.Mockito.*;
+//
+//@ExtendWith(MockitoExtension.class)
+//class UserControllerTest {
+//
+//    @InjectMocks
+//    private UserController userController;
+//
+//    @Mock
+//    private UserService userService;
+//
+//    private Authentication mockAuthentication;
+//    private GrantedAuthority mockGrantedAuthority;
+//
+//    @BeforeEach
+//    public void setup() {
+//        // Mock Authentication and GrantedAuthority
+//        mockAuthentication = Mockito.mock(Authentication.class);
+//        mockGrantedAuthority = Mockito.mock(GrantedAuthority.class);
+//
+//        // Stubbing the methods
+//        when(mockGrantedAuthority.getAuthority()).thenReturn("SCOPE_ADMIN");
+//        doReturn(Collections.singleton(mockGrantedAuthority)).when(mockAuthentication).getAuthorities();
+//    }
+//
+//
+//    @Test
+//    void testGetAllUsers() throws Exception {
+//        // Mocking the service call
+//        when(userService.getAllUsers(anyMap())).thenReturn(Collections.singletonList(new User()));
+//
+//        // Setting up MockMvc
+//        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+//
+//        // Performing the GET request
+//        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/all")
+//                        .principal(mockAuthentication)
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(MockMvcResultMatchers.status().isOk());
+//
+//        // Verifying that the service method is called
+//        verify(userService, times(1)).getAllUsers(anyMap());
+//    }
+//}

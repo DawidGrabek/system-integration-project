@@ -37,6 +37,33 @@ class AuthServiceTest {
     private AuthService authService;
 
     @Test
+    void getUserByLogin_UserExists_ReturnsUser() throws Exception {
+        // Arrange
+        String login = "existingUser";
+        User expectedUser = new User(login, "password", new Role(0, "USER"));
+
+        when(userRepository.findByLogin(login)).thenReturn(Optional.of(expectedUser));
+
+        // Act
+        User actualUser = authService.getUserByLogin(login);
+
+        // Assert
+        assertNotNull(actualUser);
+        assertEquals(expectedUser, actualUser);
+    }
+
+    @Test
+    void getUserByLogin_UserNotFound_ThrowsException() {
+        // Arrange
+        String login = "nonExistingUser";
+
+        when(userRepository.findByLogin(login)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(Exception.class, () -> authService.getUserByLogin(login));
+    }
+
+    @Test
     void loginUser_Successful() throws Exception {
         // Arrange
         String login = "testUser";

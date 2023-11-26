@@ -58,6 +58,18 @@ class AuthControllerTest {
     }
 
     @Test
+    void registerUser_Failure() throws Exception {
+        RegisterDto registerDto = new RegisterDto("user", "password", "ROLE_USER");
+        when(authService.registerUser(registerDto)).thenThrow(new Exception("Registration failed"));
+
+        this.mockMvc.perform(post("/api/v1/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(registerDto)))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void registerUser_Success() throws Exception {
         RegisterDto registerDto = new RegisterDto("user", "password", "ROLE_USER");
         when(authService.registerUser(registerDto)).thenReturn(true);
@@ -82,17 +94,6 @@ class AuthControllerTest {
                 .andExpect(status().isUnauthorized());
     }
 
-    @Test
-    void registerUser_Failure() throws Exception {
-        RegisterDto registerDto = new RegisterDto("user", "password", "ROLE_USER");
-        when(authService.registerUser(registerDto)).thenThrow(new Exception("Registration failed"));
-
-        this.mockMvc.perform(post("/api/v1/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(registerDto)))
-                .andDo(print())
-                .andExpect(status().isBadRequest());
-    }
 
     public static String asJsonString(final Object obj) {
         try {

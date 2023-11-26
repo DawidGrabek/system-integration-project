@@ -24,7 +24,4 @@ public class UserController {
     public ResponseEntity<List<?>> getAllUsers(@RequestHeader Map<String, String> headers) {
         return new ResponseEntity<>(service.getAllUsers(headers), HttpStatus.OK);
     }
-
-
-
 }
