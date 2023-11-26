@@ -64,7 +64,6 @@ public class RestConfig {
                         .anyRequest().authenticated() // All other requests require authentication
                 )
                 .csrf((csrf) -> csrf.ignoringRequestMatchers("/api/v1/auth/**"))
-//                .httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling((exceptions) -> exceptions
