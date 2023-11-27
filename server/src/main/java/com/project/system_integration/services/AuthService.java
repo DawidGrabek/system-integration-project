@@ -3,6 +3,7 @@ package com.project.system_integration.services;
 
 import com.project.system_integration.entities.Role;
 import com.project.system_integration.entities.User;
+import com.project.system_integration.exceptions.BadRequestException;
 import com.project.system_integration.exceptions.UnauthorizedException;
 import com.project.system_integration.models.RegisterDto;
 import com.project.system_integration.models.UserDto;
@@ -15,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 import java.util.Optional;
@@ -44,7 +46,7 @@ public class AuthService {
     }
 
     public boolean registerUser(RegisterDto body) throws Exception {
-            Role role = roleRepository.findByRoleName(body.getRole()).orElseThrow(() -> new Exception("role doesnt exist"));
+            Role role = roleRepository.findByRoleName(body.getRole()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "role doesnt exist"));
             System.out.println("TEST1@#");
             if(repository.existsByLogin(body.getLogin())) {
                 throw new Exception("user already exists");
