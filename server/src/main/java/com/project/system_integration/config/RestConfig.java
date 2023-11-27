@@ -1,5 +1,8 @@
 package com.project.system_integration.config;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
@@ -13,8 +16,12 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.project.system_integration.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -23,6 +30,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.converter.RsaKeyConverters;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -37,12 +45,8 @@ import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthen
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.stereotype.Component;
 
-/**
- * Security configuration for the main application.
- *
- * @author Josh Cummings
- */
 @Configuration
 @RequiredArgsConstructor
 public class RestConfig {
@@ -85,12 +89,6 @@ public class RestConfig {
         return new NimbusJwtEncoder(jwks);
     }
 
-//    @Bean
-//    JwtAuthenticationProvider jwtAuthenticationProvider() {
-//        JwtAuthenticationProvider provider = new JwtAuthenticationProvider(jwtDecoder());
-//        provider.setJwt
-//    }
-
     @Bean
     UserDetailsService userDetailsService() {
         return username -> repository.findByLogin(username).orElseThrow(() -> new UsernameNotFoundException("user not found"));
@@ -112,5 +110,34 @@ public class RestConfig {
         return new BCryptPasswordEncoder();
     }
 
+    private static final ResourceLoader resourceLoader = new DefaultResourceLoader();
+
+    @Component
+    @ConfigurationPropertiesBinding
+    static
+    class PrivateKeyConverter implements Converter<String, RSAPrivateKey> {
+        @Override
+        public RSAPrivateKey convert(String location) {
+            try (InputStream is = resourceLoader.getResource(location).getInputStream()) {
+                return RsaKeyConverters.pkcs8().convert(is);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        }
+    }
+
+    @Component
+    @ConfigurationPropertiesBinding
+    static
+    class PublicKeyConverter implements Converter<String, RSAPublicKey> {
+        @Override
+        public RSAPublicKey convert(String location) {
+            try (InputStream is = resourceLoader.getResource(location).getInputStream()) {
+                return RsaKeyConverters.x509().convert(is);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        }
+    }
 
 }
