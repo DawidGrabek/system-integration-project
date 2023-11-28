@@ -32,6 +32,7 @@ public class InflationService {
     private final CountryRepository countryRepository;
     private final UnitRepository unitRepository;
     private final AuthService auth;
+
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public List<InflationDto> getAllInflations() {
 
@@ -44,6 +45,7 @@ public class InflationService {
 
         return inflationsDto;
     }
+
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public InflationDto getOneByYear(Integer year) throws BadRequestException {
         Optional<Inflation> inflation = repository.findByYear(year);
@@ -52,6 +54,7 @@ public class InflationService {
         }
         return new InflationDto(inflation.get());
     }
+
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public boolean addInflation(InflationDto inflationDto) throws BadRequestException {
         Inflation inflation = new Inflation();
@@ -73,7 +76,6 @@ public class InflationService {
         inflation.setUnit(unit);
         repository.save(inflation);
         return true;
-
     }
 
     public String getOneByYearXml(Integer year) throws BadRequestException {

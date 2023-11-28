@@ -19,9 +19,9 @@ import java.util.Map;
 public class InflationController {
 
     private final InflationService service;
+
     @GetMapping("")
     public ResponseEntity<List<InflationDto>> getInflation(Authentication authentication) {
-//        return new ResponseEntity<>(service.getAllInflations(), HttasdasdpStatus.OK);
         List<InflationDto> inflation = service.getAllInflations();
         return new ResponseEntity<>(inflation, HttpStatus.OK);
     }
