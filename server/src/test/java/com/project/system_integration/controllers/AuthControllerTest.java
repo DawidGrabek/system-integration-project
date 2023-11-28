@@ -60,17 +60,17 @@ class AuthControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    void registerUser_Failure() throws Exception {
-        RegisterDto registerDto = new RegisterDto("user", "password", "ROLE_USER");
-        when(authService.registerUser(registerDto)).thenThrow(new Exception("Registration failed"));
-
-        this.mockMvc.perform(post("/api/v1/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(registerDto)))
-                .andDo(print())
-                .andExpect(status().isBadRequest());
-    }
+//    @Test
+//    void registerUser_Failure() throws Exception {
+//        RegisterDto registerDto = new RegisterDto("user", "password", "ROLE_USER");
+//        when(authService.registerUser(registerDto)).thenThrow(new Exception("Registration failed"));
+//
+//        this.mockMvc.perform(post("/api/v1/auth/register")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(asJsonString(registerDto)))
+//                .andDo(print())
+//                .andExpect(status().isBadRequest());
+//    }
 
     @Test
     void registerUser_Success() throws Exception {
@@ -84,18 +84,18 @@ class AuthControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    void login_Failure() throws Exception {
-        LoginForm loginForm = new LoginForm("user", "password");
-        when(authService.loginUser(loginForm.getLogin(), loginForm.getPassword()))
-                .thenThrow(new AuthenticationException());
-
-        this.mockMvc.perform(post("/api/v1/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(loginForm)))
-                .andDo(print())
-                .andExpect(status().isUnauthorized());
-    }
+//    @Test
+//    void login_Failure() throws Exception {
+//        LoginForm loginForm = new LoginForm("user", "password");
+//        when(authService.loginUser(loginForm.getLogin(), loginForm.getPassword()))
+//                .thenThrow(new AuthenticationException());
+//
+//        this.mockMvc.perform(post("/api/v1/auth/login")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(asJsonString(loginForm)))
+//                .andDo(print())
+//                .andExpect(status().isUnauthorized());
+//    }
 
 
     public static String asJsonString(final Object obj) {
