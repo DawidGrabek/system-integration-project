@@ -32,6 +32,26 @@ export const ApiProvider = ({ children }) => {
       }
     }
   }
+  const signUp = async (formData) => {
+    try {
+      // if(formData.password !== formData.repeatPassword){
+      //   setError('Passwords must match')
+      //   console.log(error);
+      //   return
+      // }
+      const response = await AxiosApi.post('/api/v1/users/register', formData)
+      setUser(response.data)
+      localStorage.setItem('token', response.data)
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.status >= 400 &&
+        error.response.status <= 500
+      ) {
+        setError('Invalid login or password')
+      }
+    }
+  }
 
   const signOut = () => {
     setUser(null)
@@ -73,6 +93,7 @@ export const ApiProvider = ({ children }) => {
       value={{
         user,
         signIn,
+        signUp,
         signOut,
         error,
         getInflation,
