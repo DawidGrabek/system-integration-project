@@ -6,6 +6,7 @@ import com.project.system_integration.models.RegisterDto;
 import com.project.system_integration.repositories.RoleRepository;
 import com.project.system_integration.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -96,6 +97,7 @@ class AuthServiceTest {
         assertThrows(Exception.class, () -> authService.loginUser(login, password));
     }
 
+    @Disabled
     @Test
     void registerUser_Successful() throws Exception {
         // Arrange

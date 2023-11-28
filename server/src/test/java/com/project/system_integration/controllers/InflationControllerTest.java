@@ -3,6 +3,7 @@ package com.project.system_integration.controllers;//package com.project.system_
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.system_integration.exceptions.BadRequestException;
 import com.project.system_integration.models.InflationDto;
+import com.project.system_integration.repositories.UserRepository;
 import com.project.system_integration.services.InflationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,8 @@ public class InflationControllerTest {
 
     @MockBean
     private InflationService service;
+    @MockBean
+    private UserRepository userRepository;
 
     private Authentication mockAuthentication;
     private GrantedAuthority mockGrantedAuthority;

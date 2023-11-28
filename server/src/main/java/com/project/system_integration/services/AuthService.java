@@ -47,10 +47,11 @@ public class AuthService {
         return jwtService.generateToken(authentication);
     }
 
-    public boolean registerUser(RegisterDto body) throws Exception {
+    public boolean registerUser(RegisterDto body)  {
             Role role = roleRepository.findByRoleName(body.getRole()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "role doesnt exist"));
             if(repository.existsByLogin(body.getLogin())) {
-                throw new BadRequestException("login is taken");
+                System.out.println("User already exists");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "USER already exist");
             }
             String passwordEncoded = passwordEncoder.encode(body.getPassword());
             User newUser = new User(body.getLogin(), passwordEncoded, role);
