@@ -50,7 +50,7 @@ public class AuthService {
     public boolean registerUser(RegisterDto body) throws Exception {
             Role role = roleRepository.findByRoleName(body.getRole()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "role doesnt exist"));
             if(repository.existsByLogin(body.getLogin())) {
-                throw new Exception("user already exists");
+                throw new BadRequestException("login is taken");
             }
             String passwordEncoded = passwordEncoder.encode(body.getPassword());
             User newUser = new User(body.getLogin(), passwordEncoded, role);
