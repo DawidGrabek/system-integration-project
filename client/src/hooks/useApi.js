@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 
 import AxiosApi from 'axios.config'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const ApiContext = React.createContext()
 
@@ -10,16 +12,21 @@ export const ApiProvider = ({ children }) => {
   const [expenseExpenditure, setExpenseExpenditure] = useState([])
   const [expenseProduct, setExpenseProduct] = useState([])
   const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) setUser(token)
   }, [])
 
+  useEffect(() => {
+    setError('')
+  }, [navigate])
+
   const signIn = async (formData) => {
     try {
       console.log(formData)
-      const response = await AxiosApi.post('/api/v1/users/login', formData)
+      const response = await AxiosApi.post('/api/v1/auth/login', formData)
       setUser(response.data)
       localStorage.setItem('token', response.data)
     } catch (error) {
@@ -32,24 +39,14 @@ export const ApiProvider = ({ children }) => {
       }
     }
   }
-  const signUp = async (formData) => {
+  const signUp = async (form) => {
     try {
-      // if(formData.password !== formData.repeatPassword){
-      //   setError('Passwords must match')
-      //   console.log(error);
-      //   return
-      // }
-      const response = await AxiosApi.post('/api/v1/users/register', formData)
-      setUser(response.data)
-      localStorage.setItem('token', response.data)
-    } catch (error) {
-      if (
-        error.response &&
-        error.response.status >= 400 &&
-        error.response.status <= 500
-      ) {
-        setError('Invalid login or password')
-      }
+        const formData = {login: form.login, password: form.password, role: 'USER'}
+        await axios.post('http://localhost:8080/api/v1/auth/register', formData)
+
+        navigate('/login')
+      } catch (error) {
+        setError('Dany login jest już zajęty')
     }
   }
 

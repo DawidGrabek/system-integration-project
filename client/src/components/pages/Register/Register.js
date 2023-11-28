@@ -27,8 +27,8 @@ const Register = () => {
 
   const onSubmit = (data) => {
     signUp(data)
-    console.log(data)
   }
+
 
   return (
     <Wrapper action="post" onSubmit={handleSubmit(onSubmit)}>
@@ -60,7 +60,7 @@ const Register = () => {
         error={errors.repeatPassword?.message}
         required
       />
-      {/* {errors.repeatPassword?.message && <span>{errors.repeatPassword?.message}</span>} */}
+      {errors.repeatPassword?.message && <span>{errors.repeatPassword?.message}</span>}
       {error && <span>{error}</span>}
       <Button isBig type="submit">
         Submit

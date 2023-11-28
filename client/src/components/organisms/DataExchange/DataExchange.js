@@ -36,8 +36,14 @@ const DataExchange = ({ inflation, expenseExpenditure, setInflation }) => {
       const parsedData = await readJSONFile(event.target.files[0])
       const mergedData = [...inflation, parsedData]
 
-      await AxiosApi.post('/api/v1/inflation', parsedData)
-      setInflation(mergedData)
+      try {
+        await AxiosApi.post('/api/v1/inflation', parsedData)
+        setInflation(mergedData)
+      }
+      catch (error) {
+        alert('Brak dostępu do takiej funkcjonalności, pozdrawiam cieplutko')
+      }
+      
     }
   }
 
