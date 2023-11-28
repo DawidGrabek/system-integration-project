@@ -88,10 +88,12 @@ class InflationServiceTest {
 
     @Test
     void addInflation_Success() throws BadRequestException {
-        InflationDto inflationDto = new InflationDto();
-        inflationDto.setYear(2021);
-        inflationDto.setCountry("Country");
-        inflationDto.setTitle("Unit");
+        InflationDto inflationDto = InflationDto
+                .builder()
+                .country("Country")
+                .year(2021)
+                .title("Unit")
+                .build();
 
         when(countryRepository.findByName("Country")).thenReturn(Optional.of(new Country()));
         when(unitRepository.findByTitle("Unit")).thenReturn(Optional.of(new Unit()));

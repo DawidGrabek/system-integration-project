@@ -1,15 +1,13 @@
 package com.project.system_integration.models;
 
 import com.project.system_integration.entities.Inflation;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class InflationDto {
     private Integer year;
     private Double value;

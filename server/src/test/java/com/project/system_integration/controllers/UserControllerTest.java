@@ -1,7 +1,7 @@
 //package com.project.system_integration.controllers;
 //
 //import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.project.system_integration.config.LoginForm;
+//import com.project.system_integration.models.LoginForm;
 //import com.project.system_integration.controllers.UserController;
 //import com.project.system_integration.entities.User;
 //import com.project.system_integration.models.RegisterDto;

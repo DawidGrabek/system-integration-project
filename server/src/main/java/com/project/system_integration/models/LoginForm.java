@@ -1,4 +1,4 @@
-package com.project.system_integration.config;
+package com.project.system_integration.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

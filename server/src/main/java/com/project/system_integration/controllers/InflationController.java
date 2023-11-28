@@ -17,7 +17,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 @CrossOrigin
 public class InflationController {
-
     private final InflationService service;
 
     @GetMapping("")

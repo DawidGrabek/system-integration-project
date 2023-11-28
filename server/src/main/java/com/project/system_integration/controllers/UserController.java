@@ -1,8 +1,5 @@
 package com.project.system_integration.controllers;
 
-import com.project.system_integration.config.LoginForm;
-import com.project.system_integration.models.RegisterDto;
-import com.project.system_integration.services.AuthService;
 import com.project.system_integration.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

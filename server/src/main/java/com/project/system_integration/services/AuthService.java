@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,6 +29,7 @@ public class AuthService {
     private final RoleRepository roleRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
     public User getUserByLogin(String login) throws Exception {
         return repository.findByLogin(login).orElseThrow(() -> new Exception("no user found"));
     }
@@ -47,11 +49,11 @@ public class AuthService {
 
     public boolean registerUser(RegisterDto body) throws Exception {
             Role role = roleRepository.findByRoleName(body.getRole()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "role doesnt exist"));
-            System.out.println("TEST1@#");
             if(repository.existsByLogin(body.getLogin())) {
                 throw new Exception("user already exists");
             }
-            User newUser = new User(body.getLogin(), body.getPassword(), role);
+            String passwordEncoded = passwordEncoder.encode(body.getPassword());
+            User newUser = new User(body.getLogin(), passwordEncoded, role);
             repository.save(newUser);
         return true;
     }
