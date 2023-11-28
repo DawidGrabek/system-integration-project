@@ -1,35 +1,38 @@
 import React from 'react'
-import { useForm } from 'react-hook-form'
-
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Wrapper } from './Login.styles'
+import { Wrapper } from './Register.styles'
 import FormField from 'components/molecules/FormField/FormField'
 import Button from 'components/atoms/Button/Button'
-
-import * as yup from 'yup'
-import { useApi } from 'hooks/useApi'
 import { Link } from 'react-router-dom'
+import { useApi } from 'hooks/useApi'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
-const loginSchema = yup.object().shape({
+const registerSchema = yup.object().shape({
   login: yup.string().required('Login is required'),
   password: yup.string().required('Password is required'),
+  repeatPassword: yup
+    .string()
+    .required('Repeat password is required')
+    .oneOf([yup.ref('password')], 'Passwords must match'),
 })
 
-const Login = () => {
-  const { signIn, error } = useApi()
+const Register = () => {
+  const { signUp, error } = useApi()
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(loginSchema) })
+  } = useForm({ resolver: yupResolver(registerSchema) })
 
   const onSubmit = (data) => {
-    signIn(data)
+    signUp(data)
+    console.log(data)
   }
 
   return (
     <Wrapper action="post" onSubmit={handleSubmit(onSubmit)}>
-      <h1>Log in</h1>
+      <h1>Register</h1>
       <FormField
         id="login"
         labelText="Login"
@@ -48,13 +51,23 @@ const Login = () => {
         error={errors.password?.message}
         required
       />
+      <FormField
+        id="repeatPassword"
+        labelText="Repeat password"
+        type={'password'}
+        placeholder={'Repeat password'}
+        {...register('repeatPassword')}
+        error={errors.repeatPassword?.message}
+        required
+      />
+      {/* {errors.repeatPassword?.message && <span>{errors.repeatPassword?.message}</span>} */}
       {error && <span>{error}</span>}
       <Button isBig type="submit">
         Submit
       </Button>
-      <Link to="/register">You don't have an account?</Link>
+      <Link to="/login">You have an account?</Link>
     </Wrapper>
   )
 }
 
-export default Login
+export default Register
