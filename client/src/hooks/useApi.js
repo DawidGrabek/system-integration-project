@@ -15,7 +15,7 @@ export const ApiProvider = ({ children }) => {
     const token = localStorage.getItem('token')
     if (token) setUser(token)
   }, [])
-``
+
   const signIn = async (formData) => {
     try {
       console.log(formData)
