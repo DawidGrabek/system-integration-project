@@ -189,13 +189,9 @@ public class InflationControllerTest {
     @Test
     public void testGetInflationByYearXml() throws Exception {
         // Perform the GET request
-
         mockMvc.perform(get("/api/v1/inflation/xml/2020")
                         .principal(mockAuthentication))
                 .andExpect(status().isOk());
-
-        // Additional assertions and verifications
-
     }
 
     @Test
@@ -205,7 +201,6 @@ public class InflationControllerTest {
                         .principal(mockAuthentication))
                 .andExpect(status().isBadRequest());
 
-        // Additional assertions and verifications
 
     }
 
@@ -216,8 +211,6 @@ public class InflationControllerTest {
                         .principal(mockAuthentication))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-
-        // Additional assertions and verifications
 
     }
 }

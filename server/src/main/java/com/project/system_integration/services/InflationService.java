@@ -90,4 +90,49 @@ public class InflationService {
         String inflationXml = sw.toString();
         return inflationXml;
     }
+
+    public List<InflationDto> getBefore(Integer year) {
+        List<Inflation> inflations = repository.findByYearLessThan(year);
+        List<InflationDto> inflationsDto = new ArrayList<>();
+        for (Inflation i : inflations) {
+            inflationsDto.add(new InflationDto(i));
+        }
+        return inflationsDto;
+    }
+
+    public List<InflationDto> getBetween(Integer before, Integer after) {
+        List<Inflation> inflations = repository.findByYearBetween(before, after);
+        List<InflationDto> inflationsDto = new ArrayList<>();
+        for (Inflation i : inflations) {
+            inflationsDto.add(new InflationDto(i));
+        }
+        return inflationsDto;
+    }
+
+    public List<InflationDto> getAfter(Integer year) {
+        List<Inflation> inflations = repository.findByYearGreaterThan(year);
+        List<InflationDto> inflationsDto = new ArrayList<>();
+        for (Inflation i : inflations) {
+            inflationsDto.add(new InflationDto(i));
+        }
+        return inflationsDto;
+    }
+
+    public List<InflationDto> getValueBelow(Integer value) {
+        List<Inflation> inflations = repository.findByValueLessThan(value);
+        List<InflationDto> inflationsDto = new ArrayList<>();
+        for (Inflation i : inflations) {
+            inflationsDto.add(new InflationDto(i));
+        }
+        return inflationsDto;
+    }
+
+    public List<InflationDto> getValueAbove(Integer value) {
+        List<Inflation> inflations = repository.findByValueGreaterThan(value);
+        List<InflationDto> inflationsDto = new ArrayList<>();
+        for (Inflation i : inflations) {
+            inflationsDto.add(new InflationDto(i));
+        }
+        return inflationsDto;
+    }
 }

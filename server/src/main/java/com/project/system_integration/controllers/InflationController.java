@@ -64,4 +64,29 @@ public class InflationController {
         }
         return new ResponseEntity<>(inflation, HttpStatus.OK);
     }
+
+    @GetMapping("/before/{year}")
+    public ResponseEntity<List<InflationDto>> getInflationFilteredYearBefore(@PathVariable Integer year) {
+        return new ResponseEntity<>(service.getBefore(year), HttpStatus.OK);
+    }
+
+    @GetMapping("/after/{year}")
+    public ResponseEntity<List<InflationDto>> getInflationFilteredYearAfter(@PathVariable Integer year) {
+        return new ResponseEntity<>(service.getAfter(year), HttpStatus.OK);
+    }
+
+    @GetMapping("/between/{before}/{after}")
+    public ResponseEntity<List<InflationDto>> getInflationFiltered(@PathVariable Integer before, @PathVariable Integer after) {
+        return new ResponseEntity<>(service.getBetween(before, after), HttpStatus.OK);
+    }
+
+    @GetMapping("/value/below/{value}")
+    public ResponseEntity<List<InflationDto>> getInflationFilteredValueBelow(@PathVariable Integer value) {
+        return new ResponseEntity<>(service.getValueBelow(value), HttpStatus.OK);
+    }
+
+    @GetMapping("/value/above/{value}")
+    public ResponseEntity<List<InflationDto>> getInflationFilteredValueAbove(@PathVariable Integer value) {
+        return new ResponseEntity<>(service.getValueAbove(value), HttpStatus.OK);
+    }
 }
